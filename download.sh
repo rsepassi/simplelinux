@@ -15,6 +15,7 @@ dl() {
   local_dst="$SRC/$local_name"
 
   test -f "$local_file" || wget "$local_url/$local_file"
+  rm -r $local_dst
   mkdir -p $local_dst
   tar -xf $local_file -C $local_dst
 }

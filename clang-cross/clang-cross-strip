@@ -1,2 +1,0 @@
-#!/bin/sh
-llvm-strip-16 "$@"

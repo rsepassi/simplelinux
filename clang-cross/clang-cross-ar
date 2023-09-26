@@ -1,2 +1,2 @@
 #!/bin/sh
-llvm-ar-16 "$@"
+zig ar "$@"
