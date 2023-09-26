@@ -1,0 +1,10 @@
+zig-objcopy
+error: unrecognized argument: '--prefix-symbols=__pi_'
+
+zig cc -MMD -MF seems to not output the expected .s file
+/bin/sh: 1: cannot open scripts/mod/devicetable-offsets.s: No such file
+
+make LLVM=1 ARCH=arm LLVM_IAS=0 CROSS_COMPILE=arm-linux-gnueabi-
+CLANG_FLAGS="-fintegrated-as" \
+CC_IS_CLANG=y \
+CLANG_VERSION=160006 \
