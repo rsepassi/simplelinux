@@ -1,0 +1,6 @@
+#!/bin/sh
+/bin/busybox --install -s /usr/bin
+mount -t proc none /proc
+mount -t sysfs sys /sys
+mount -t devtmpfs udev /dev
+exec /bin/busybox init -s
