@@ -1,0 +1,5 @@
+#!/bin/sh
+
+. $ZIGROOT/zig-cross/utils.sh
+
+zig cc $(rewrite_flags "$@")

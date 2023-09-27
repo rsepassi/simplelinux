@@ -1,0 +1,9 @@
+#!/bin/sh
+
+. $ZIGROOT/zig-cross/utils.sh
+
+zig cc \
+  --target=$ZIG_ARCH-linux-musl \
+  -fuse-ld="lld-16" \
+  --ld-path=$ZIGROOT/zig-cross/zig-cross-lld \
+  $(rewrite_flags "$@")

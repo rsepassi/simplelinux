@@ -1,8 +1,8 @@
 #!/bin/sh
 
-. $ZIGROOT/clang-cross/utils.sh
+. $ZIGROOT/zig-cross/utils.sh
 
 ARGS="$@"
 NEWARGS=$(rewrite_flags $ARGS)
 
-zig cc $NEWARGS
+zig c++ $NEWARGS

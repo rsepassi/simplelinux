@@ -1,28 +1,28 @@
 #!/bin/sh
 set -e
 
-export PATH=$PATH:$PWD/clang-cross
-cd sources/linux/linux-6.5
+echo "Building Linux kernel"
 
 # https://docs.kernel.org/kbuild/llvm.html
 clangmake() {
   make \
     LLVM=1 \
-    ARCH=arm64 \
+    ARCH=$KERNEL_ARCH \
     CC=clang-16 \
     LD=ld.lld-16 \
-    AR=clang-cross-ar \
+    AR=zig-cross-ar \
     NM=llvm-nm-16 \
     STRIP=llvm-strip-16 \
     OBJCOPY=llvm-objcopy-16 \
     OBJDUMP=llvm-objdump-16 \
     READELF=llvm-readelf-16 \
-    HOSTCC=clang-cross-hostcc \
+    HOSTCC=clang-16 \
     HOSTCXX=clang-c++-16 \
-    HOSTAR=clang-cross-ar \
+    HOSTAR=zig-cross-ar \
     HOSTLD=ld.lld-16 \
     $1
 }
 
+cd sources/linux
 clangmake defconfig
-clangmake -j128
+clangmake -j32

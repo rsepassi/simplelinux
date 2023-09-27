@@ -1,7 +1,0 @@
-#!/bin/sh
-set -e
-PATH=$PATH:/home/root/zig
-mkdir -p /home/root/zig-hello
-cd /home/root/zig-hello
-zig init-exe
-zig build run

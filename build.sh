@@ -1,10 +1,10 @@
 #!/bin/sh
 set -e
 
-export ZIGROOT=$PWD
+. ./env.sh
 
 # sources
-./download.sh
+./scripts/download.sh
 
 # busybox
 ./busybox/build.sh
@@ -15,5 +15,8 @@ export ZIGROOT=$PWD
 # ramfs
 ./initrd/build.sh
 
+# bootloader
+./boot/build.sh
+
 # run
-./qemu.sh
+./scripts/qemu.sh

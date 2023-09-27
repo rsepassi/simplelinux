@@ -1,6 +1,13 @@
 #!/bin/sh
+set -e
+
+echo "=== zigroot init ==="
 /bin/busybox --install -s /usr/bin
+dmesg -n 3
 mount -t proc none /proc
-mount -t sysfs sys /sys
-mount -t devtmpfs udev /dev
+mount -t sysfs none /sys
+mount -t devtmpfs none /dev
+export HOME=/home/root
+
+echo "=== busybox init ==="
 exec /bin/busybox init -s
