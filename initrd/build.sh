@@ -21,4 +21,4 @@ mkdir -p usr/bin sys tmp bin home/root proc
 cp $SRC/sources/busybox/busybox bin/
 
 # Package
-find . | cpio -o -H newc | gzip -9 > $INITRD_PATH
+find . | cpio -o -H newc > $INITRD_PATH

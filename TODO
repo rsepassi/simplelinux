@@ -3,7 +3,8 @@
   Compressed kernel?
   Try UTM
   Try real device
-* Separate layers: boot, VM, container
+  Speed up
+* Separate layers: boot iso, VM, microvm, container
 * Disk bring-up
 * Network bring-up
 * Build and run static binary

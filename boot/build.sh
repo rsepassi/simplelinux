@@ -17,6 +17,6 @@ rm -f $ISO_PATH
 mkdir iso
 cp $ZIGROOT/boot/simpleboot.cfg iso/
 cp $KERNEL_PATH iso/kernel
-cp $INITRD_PATH iso/initramfs.cpio.gz
+cp $INITRD_PATH iso/initramfs.cpio
 
-$EXE -vv -i initramfs.cpio.gz iso $ISO_PATH
+$EXE -vv -i initramfs.cpio iso $ISO_PATH

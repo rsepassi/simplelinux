@@ -14,7 +14,7 @@ echo "====================="
 
 export ZIGROOT=$PWD
 export PATH=$PATH:$ZIGROOT/zig-cross
-export INITRD_PATH=$ZIGROOT/sources/initramfs.cpio.gz
+export INITRD_PATH=$ZIGROOT/sources/initramfs.cpio
 export ISO_PATH=$ZIGROOT/sources/zigroot.iso
 
 case "$ZIGROOT_ARCH" in
@@ -23,18 +23,21 @@ case "$ZIGROOT_ARCH" in
         export KERNEL_PATH=$ZIGROOT/sources/linux/arch/$KERNEL_ARCH/boot/bzImage
         export QEMU_ARCH="i386"
         export QEMU_MACHINE_ARGS=""
+        export ZIG_ARCH="x86"
         ;;
     x86_64)
         export KERNEL_ARCH="x86_64"
         export KERNEL_PATH=$ZIGROOT/sources/linux/arch/$KERNEL_ARCH/boot/bzImage
         export QEMU_ARCH="x86_64"
         export QEMU_MACHINE_ARGS=""
+        export ZIG_ARCH="x86_64"
         ;;
     arm64)
         export KERNEL_ARCH="arm64"
         export KERNEL_PATH=$ZIGROOT/sources/linux/arch/$KERNEL_ARCH/boot/Image
         export QEMU_ARCH="aarch64"
         export QEMU_MACHINE_ARGS="-machine virt -cpu cortex-a57"
+        export ZIG_ARCH="aarch64"
         ;;
     *)
         echo "Unrecognized ZIGROOT_ARCH $ZIGROOT_ARCH"
