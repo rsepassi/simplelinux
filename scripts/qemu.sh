@@ -13,7 +13,7 @@ qemu-system-$QEMU_ARCH $QEMU_ARGS \
   -display none \
   -kernel $KERNEL_PATH \
   -initrd $INITRD_PATH \
-  -append "console=ttyS0"
+  -append "console=$QEMU_CONSOLE"
 
 # With iso
 # qemu-system-$QEMU_ARCH $QEMU_ARGS \
@@ -34,6 +34,6 @@ qemu-system-$QEMU_ARCH $QEMU_ARGS \
 #   -display none \
 #   -kernel $KERNEL_PATH \
 #   -initrd $INITRD_PATH \
-#   -append "console=ttyS0"
+#   -append "$QEMU_CONSOLE"
 
 stty intr ^C
