@@ -10,6 +10,23 @@ itself from source code".
 3. Command line utilities: [`busybox`][busybox]
 4. Kernel: [`linux`][linux]
 
+## Usage
+
+```
+ZIGROOT_ARCH=x86_64 ./build.sh
+```
+
+Builds:
+
+* busybox, statically linked
+* Linux kernel
+* simpleboot bootloader
+* `zigroot.iso`
+
+And then launches the iso in qemu, dropping you into a busybox shell.
+
+`ZIGROOT_ARCH` can be one of `{x86, x86_64, aarch64}`.
+
 ## Status
 
 *As of 09/26*

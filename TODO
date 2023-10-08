@@ -1,11 +1,9 @@
 * Bootloader
   Specify initramfs in cfg
-  Compressed kernel?
   Try UTM
   Try real device
-  Speed up
-* Separate layers: boot iso, VM, microvm, container
 * Disk bring-up
 * Network bring-up
 * Build and run static binary
 * Build and run dynamic binary
+* Separate layers: boot iso, VM, microvm, container

@@ -19,4 +19,7 @@ cp $ZIGROOT/boot/simpleboot.cfg iso/
 cp $KERNEL_PATH iso/kernel
 cp $INITRD_PATH iso/initramfs.cpio
 
-$EXE -vv -i initramfs.cpio iso $ISO_PATH
+$EXE -vv \
+  -s 64M \
+  -i initramfs.cpio \
+  iso $ISO_PATH
