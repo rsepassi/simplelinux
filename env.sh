@@ -1,7 +1,7 @@
 echo "Loading env.sh"
 
 if [ -z "$ZIGROOT_ARCH" ]; then
-    export ZIGROOT_ARCH="x86_64"  # {x86_64, x86, arm64}
+    export ZIGROOT_ARCH="$(uname -m)"
 fi
 export BUSYBOX_VERSION="1.36.0"
 export LINUX_VERSION="6.5"
@@ -40,6 +40,13 @@ case "$ZIGROOT_ARCH" in
         export QEMU_ARCH="aarch64"
         export QEMU_ARGS="-machine virt -cpu cortex-a53 -bios /usr/share/qemu-efi-aarch64/QEMU_EFI.fd"
         export ZIG_ARCH="aarch64"
+        ;;
+    riscv64)
+        export KERNEL_ARCH="riscv"
+        export KERNEL_PATH=$ZIGROOT/sources/linux/arch/$KERNEL_ARCH/boot/Image
+        export QEMU_ARCH="riscv64"
+        export QEMU_ARGS="-machine virt"
+        export ZIG_ARCH="riscv64"
         ;;
     *)
         echo "Unrecognized ZIGROOT_ARCH $ZIGROOT_ARCH"

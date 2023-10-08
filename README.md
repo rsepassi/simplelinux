@@ -25,21 +25,14 @@ Builds:
 
 And then launches the iso in qemu, dropping you into a busybox shell.
 
-`ZIGROOT_ARCH` can be one of `{x86, x86_64, aarch64}`.
+`ZIGROOT_ARCH` can be one of `{x86, x86_64, aarch64, riscv64}`.
 
 ## Status
 
-*As of 09/26*
+*As of 10/8*
 
-`build.sh` cross-compiles (from `x86_64` to `arm_64`) busybox and the Linux
-kernel, builds an image, launches in QEMU, and builds and runs a Zig hello
-world.
-
-The Busybox build uses `make` but calls out to `zig cc`, `zig ar`, and `zig
-objcopy`. The Linux build uses `make` and `llvm-16`. 
-
-The idea is now to start swapping out the build pieces until it's all Zig, and
-then to be able to rebuild it all again within the VM.
+Have things building with shell scripts and make. Builds use zig where they can
+and clang/llvm tools where they can't.
 
 ## Some other things that would be cool
 
