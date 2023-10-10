@@ -2,8 +2,16 @@
   Specify initramfs in cfg
   Try UTM
   Try real device
+  Secure boot
 * Disk bring-up
 * Network bring-up
-* Build and run static binary
-* Build and run dynamic binary
+* Minimal image that can
+  * Run a static Zig binary
+  * Run a dynamic Zig binary
+  * Run podman
+  * Build itself
+  * Run itself
 * Separate layers: boot iso, VM, microvm, container
+* arm32, riscv32
+* Init system, runit? http://smarden.org/runit/
+* debbootstrap? to get a debian chroot

@@ -1,7 +1,8 @@
 #!/bin/sh
 set -e
 
-echo "Downloading and extracting sources"
+TITLE="Downloading and extracting sources"
+echo $TITLE
 
 SRC=$ZIGROOT/sources
 mkdir -p $SRC
@@ -22,6 +23,8 @@ dl() {
   tar -xf $local_file -C $local_dst --strip-components=1
 }
 
-dl simpleboot "simpleboot-$SIMPLEBOOT_VERSION.tar.gz" "https://gitlab.com/bztsrc/simpleboot/-/archive/$SIMPLEBOOT_VERSION"
+dl limine "limine-$LIMINE_VERSION.tar.gz" "https://github.com/limine-bootloader/limine/releases/download/v$LIMINE_VERSION"
 dl busybox "busybox-$BUSYBOX_VERSION.tar.bz2" "https://www.busybox.net/downloads"
 dl linux "v$LINUX_VERSION.tar.gz" "https://github.com/torvalds/linux/archive/refs/tags"
+
+echo "DONE: $TITLE"

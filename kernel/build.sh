@@ -1,7 +1,8 @@
 #!/bin/sh
 set -e
 
-echo "Building Linux kernel"
+TITLE="Building Linux kernel to $KERNEL_PATH"
+echo $TITLE
 
 # https://docs.kernel.org/kbuild/llvm.html
 clangmake() {
@@ -10,7 +11,7 @@ clangmake() {
     ARCH=$KERNEL_ARCH \
     CC=clang-16 \
     LD=ld.lld-16 \
-    AR=zig-cross-ar \
+    AR=llvm-ar \
     NM=llvm-nm-16 \
     STRIP=llvm-strip-16 \
     OBJCOPY=llvm-objcopy-16 \
@@ -18,11 +19,13 @@ clangmake() {
     READELF=llvm-readelf-16 \
     HOSTCC=clang-16 \
     HOSTCXX=clang-c++-16 \
-    HOSTAR=zig-cross-ar \
+    HOSTAR=llvm-ar \
     HOSTLD=ld.lld-16 \
     $1
 }
 
 cd sources/linux
 clangmake defconfig
-clangmake -j32
+clangmake -j64
+
+echo "DONE: $TITLE"
