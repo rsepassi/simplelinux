@@ -18,5 +18,9 @@ set -e
 # bootloader
 ./boot/build.sh
 
-# run
-./scripts/qemu.sh
+echo "========================================"
+echo "Build complete"
+echo "Kernel: $KERNEL_PATH"
+echo "initramfs: $INITRD_PATH"
+echo "Bootable disk image: $IMG_PATH"
+echo "Run ./scripts/qemu.sh to launch in QEMU"

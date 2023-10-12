@@ -16,7 +16,7 @@ cp -r $SRC/initrd/rootfs $DST
 cd $DST
 
 # Make directories
-mkdir -p usr/bin sys tmp bin home/root proc
+mkdir -p usr/bin sys tmp bin root proc
 
 # Copy in busybox
 cp $SRC/sources/busybox/busybox bin/

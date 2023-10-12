@@ -1,8 +1,0 @@
-#!/bin/sh
-
-. $ZIGROOT/zig-cross/utils.sh
-
-ARGS="$@"
-NEWARGS=$(rewrite_flags $ARGS)
-
-zig c++ $NEWARGS

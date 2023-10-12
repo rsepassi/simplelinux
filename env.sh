@@ -7,10 +7,10 @@ if [ -z "$QEMU_RUN_MODE" ]; then
     export QEMU_RUN_MODE="kernel"
 fi
 export BUSYBOX_VERSION="1.36.0"
-export LINUX_VERSION="6.5"
+export LINUX_VERSION="6.5.7"
 export LIMINE_VERSION="5.20231006.0"
 
-ARCHS="x86 x86_64 arm64 riscv64"
+ARCHS="x86 x86_64 arm arm64 riscv64"
 QEMU_MODES="img kernel microvm"
 
 echo "=== Configuration ==="
@@ -22,7 +22,6 @@ echo "Limine: v$LIMINE_VERSION"
 echo "====================="
 
 export ZIGROOT=$PWD
-export PATH=$PATH:$ZIGROOT/zig-cross
 export INITRD_PATH=$ZIGROOT/sources/initramfs.cpio.gz
 export IMG_PATH=$ZIGROOT/sources/zigroot.img
 
@@ -77,17 +76,16 @@ case "$ZIGROOT_ARCH" in
         export LIMINE_ARCH="riscv64"
         export EFI_BIN="BOOTRISCV64.EFI"
         ;;
-    # Note: Limine does not support arm 32-bit
-    # arm)
-    #     export KERNEL_ARCH="arm"
-    #     export KERNEL_PATH=$ZIGROOT/sources/linux/arch/$KERNEL_ARCH/boot/zImage
-    #     export QEMU_ARCH="arm"
-    #     export QEMU_CONSOLE="ttyAMA0"
-    #     export QEMU_ARGS="-machine virt -cpu cortex-a15 -bios /usr/share/AAVMF/AAVMF32_CODE.fd"
-    #     export QEMU_BIOS_ARG=""  # already in QEMU_ARGS
-    #     export ZIG_ARCH="arm"
-    #     export ZIG_ABI="musleabihf"
-    #     ;;
+    arm)
+        export KERNEL_ARCH="arm"
+        export KERNEL_PATH=$ZIGROOT/sources/linux/arch/$KERNEL_ARCH/boot/zImage
+        export QEMU_ARCH="arm"
+        export QEMU_CONSOLE="ttyAMA0"
+        export QEMU_ARGS="-machine virt -cpu cortex-a15 -bios /usr/share/AAVMF/AAVMF32_CODE.fd"
+        export QEMU_BIOS_ARG=""  # already in QEMU_ARGS
+        export ZIG_ARCH="arm"
+        export ZIG_ABI="musleabihf"
+        ;;
     *)
         echo "Unrecognized ZIGROOT_ARCH $ZIGROOT_ARCH"
         exit 1

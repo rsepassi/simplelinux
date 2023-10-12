@@ -2,6 +2,8 @@
 
 set -e
 
+. ./env.sh
+
 echo "Launching qemu-system-$QEMU_ARCH"
 echo "QEMU_ARGS=$QEMU_ARGS"
 

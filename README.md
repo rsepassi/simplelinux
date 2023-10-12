@@ -1,50 +1,31 @@
-# zigroot
+# Linux build
 
-Inspired by [Rob Landley][rob].
+A simplified "Linux from Scratch".
 
-"The smallest possible complete development environment capable of rebuilding
-itself from source code".
-
-1. C compiler: [`zig`][zig]
-2. C standard library: [`musl`][musl]
-3. Command line utilities: [`busybox`][busybox]
-4. Kernel: [`linux`][linux]
-
-## Usage
+Cross-compiles using llvm to:
+* `x86`
+* `x86_64`
+* `riscv64`
+* `arm`
+* `arm64`
 
 ```
+# on host system
 ZIGROOT_ARCH=x86_64 ./build.sh
+
+# or in a podman container
+ZIGROOT_ARCH=x86_64 ./airlock/build.sh
 ```
 
-Builds:
+The build script does the following:
+* Downloads sources for busybox, Linux, Limine (`scripts/download.sh`)
+* Builds busybox, statically linked (`busybox/build.sh`)
+* Builds Linux (`kernel/build.sh`)
+* Builds initramfs (`initrd/build.sh`)
+* Builds bootable image (`boot/build.sh`)
 
-* busybox, statically linked
-* Linux kernel
-* simpleboot bootloader
-* `zigroot.iso`
+To run the built kernel in QEMU:
 
-And then launches the iso in qemu, dropping you into a busybox shell.
-
-`ZIGROOT_ARCH` can be one of `{x86, x86_64, aarch64, riscv64}`.
-
-## Status
-
-*As of 10/8*
-
-Have things building with shell scripts and make. Builds use zig where they can
-and clang/llvm tools where they can't.
-
-## Some other things that would be cool
-
-* Build Zig from source too
-* Use [`ziglibc`][ziglibc]
-* Graphical user space with [`ghostty`][ghostty]
-* Make it all pluggable
-
-[rob]: https://www.landley.net
-[ziglibc]: https://github.com/marler8997/ziglibc
-[zig]: https://github.com/ziglang/zig
-[busybox]: https://www.busybox.net
-[linux]: https://github.com/torvalds/linux
-[ghostty]: https://mitchellh.com/ghostty
-[musl]: https://musl.libc.org
+```
+./scripts/qemu.sh
+```

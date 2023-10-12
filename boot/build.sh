@@ -1,4 +1,5 @@
 #!/bin/sh
+
 set -e
 
 TITLE="Building boot image to $IMG_PATH"
@@ -19,43 +20,43 @@ mkdir -p $BUILD
 cd $BUILD
 
 setup_toolchain() {
-	rm -rf $BUILD/toolchain
-	mkdir $BUILD/toolchain
+  rm -rf $BUILD/toolchain
+  mkdir $BUILD/toolchain
 
-	local_tools="
-	llvm-addr2line
-	llvm-ar
-	clang
-	clang++
-	llvm-cxxfilt
-	ld.lld
-	llvm-nm
-	llvm-objcopy
-	llvm-objdump
-	llvm-readelf
-	llvm-size
-	llvm-strings
-	llvm-strip
-	"
+  local_tools="
+  llvm-addr2line
+  llvm-ar
+  clang
+  clang++
+  llvm-cxxfilt
+  ld.lld
+  llvm-nm
+  llvm-objcopy
+  llvm-objdump
+  llvm-readelf
+  llvm-size
+  llvm-strings
+  llvm-strip
+  "
 
-	for local_tool in $local_tools
-	do
-		local_full="$local_tool-16"
-		local_path=$(which $local_full)
-		ln -s $local_path $BUILD/toolchain/$local_tool
-	done
-	export PATH="$PATH:$BUILD/toolchain"
+  for local_tool in $local_tools
+  do
+    local_full="$local_tool"
+    local_path=$(which $local_full)
+    ln -s $local_path $BUILD/toolchain/$local_tool
+  done
+  export PATH="$PATH:$BUILD/toolchain"
 }
 
 build_limine() {
   cd $LIMINE_SRCDIR
   setup_toolchain
-	TOOLCHAIN_FOR_TARGET="llvm" \
-		./configure --prefix=$BUILD \
-		--enable-uefi-$LIMINE_ARCH \
-		--enable-bios
-	make -j64 install
-	find $BUILD -type f | grep -v "/doc/" | grep -v "/man/"
+  TOOLCHAIN_FOR_TARGET="llvm" \
+    ./configure --prefix=$BUILD \
+    --enable-uefi-$LIMINE_ARCH \
+    --enable-bios
+  make -j64 install
+  find $BUILD -type f | grep -v "/doc/" | grep -v "/man/"
   cd $BUILD
 }
 
@@ -99,10 +100,10 @@ mdir -i $FAT ::
 dd if=/dev/zero of=$IMG_PATH bs=$sector_size count=$gpt_sectors
 end_str="$(( fat_mb + 1 ))MiB"
 parted -s $IMG_PATH -- \
-	unit MiB \
-	mklabel gpt \
-	mkpart primary fat32 1MiB $end_str \
-	set 1 esp on
+  unit MiB \
+  mklabel gpt \
+  mkpart primary fat32 1MiB $end_str \
+  set 1 esp on
 parted -s $IMG_PATH -- unit MiB print
 dd if=$FAT of=$IMG_PATH bs=$sector_size seek=$fat_offset conv=notrunc
 

@@ -25,6 +25,6 @@ dl() {
 
 dl limine "limine-$LIMINE_VERSION.tar.gz" "https://github.com/limine-bootloader/limine/releases/download/v$LIMINE_VERSION"
 dl busybox "busybox-$BUSYBOX_VERSION.tar.bz2" "https://www.busybox.net/downloads"
-dl linux "v$LINUX_VERSION.tar.gz" "https://github.com/torvalds/linux/archive/refs/tags"
+dl linux "linux-$LINUX_VERSION.tar.xz" "https://cdn.kernel.org/pub/linux/kernel/v6.x"
 
 echo "DONE: $TITLE"

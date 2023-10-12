@@ -5,27 +5,35 @@ TITLE="Building Linux kernel to $KERNEL_PATH"
 echo $TITLE
 
 # https://docs.kernel.org/kbuild/llvm.html
-clangmake() {
-  make \
+clang_flags="
     LLVM=1 \
     ARCH=$KERNEL_ARCH \
-    CC=clang-16 \
-    LD=ld.lld-16 \
+    CC=clang \
+    LD=ld.lld \
     AR=llvm-ar \
-    NM=llvm-nm-16 \
-    STRIP=llvm-strip-16 \
-    OBJCOPY=llvm-objcopy-16 \
-    OBJDUMP=llvm-objdump-16 \
-    READELF=llvm-readelf-16 \
-    HOSTCC=clang-16 \
-    HOSTCXX=clang-c++-16 \
+    NM=llvm-nm \
+    STRIP=llvm-strip \
+    OBJCOPY=llvm-objcopy \
+    OBJDUMP=llvm-objdump \
+    READELF=llvm-readelf \
+    HOSTCC=clang \
+    HOSTCXX=clang-c++ \
     HOSTAR=llvm-ar \
-    HOSTLD=ld.lld-16 \
-    $1
-}
+    HOSTLD=ld.lld \
+"
 
 cd sources/linux
-clangmake defconfig
-clangmake -j64
+
+# Start fresh
+make "$clang_flags" clean
+echo "Linux cleaned"
+
+# Configure
+make $clang_flags defconfig
+echo "Linux configured"
+
+# Build
+make $clang_flags -j32
+echo "Linux built"
 
 echo "DONE: $TITLE"
