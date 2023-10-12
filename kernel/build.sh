@@ -1,11 +1,12 @@
 #!/bin/sh
 set -e
 
-TITLE="Building Linux kernel to $KERNEL_PATH"
+TITLE="Building Linux kernel for $KERNEL_ARCH to $KERNEL_PATH"
 echo $TITLE
 
 # https://docs.kernel.org/kbuild/llvm.html
-clang_flags="
+clangmake() {
+  make \
     LLVM=1 \
     ARCH=$KERNEL_ARCH \
     CC=clang \
@@ -20,20 +21,21 @@ clang_flags="
     HOSTCXX=clang-c++ \
     HOSTAR=llvm-ar \
     HOSTLD=ld.lld \
-"
+    "$@"
+}
 
 cd sources/linux
 
 # Start fresh
-make "$clang_flags" clean
+clangmake clean
 echo "Linux cleaned"
 
 # Configure
-make $clang_flags defconfig
+clangmake defconfig
 echo "Linux configured"
 
 # Build
-make $clang_flags -j32
+clangmake -j32
 echo "Linux built"
 
 cp $KERNEL_SRC_PATH $KERNEL_PATH

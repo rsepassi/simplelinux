@@ -13,13 +13,13 @@ RUN apk add linux-headers flex bison elfutils-dev openssl-dev perl rsync  # for 
 RUN apk add nasm mtools parted  # for boot image
 
 # Add in build files
-RUN mkdir -p /root/build
-ADD boot /root/build/boot
-ADD busybox /root/build/busybox
-ADD initrd /root/build/initrd
-ADD kernel /root/build/kernel
-ADD scripts /root/build/scripts
-ADD build.sh /root/build/
-ADD env.sh /root/build/
+RUN mkdir -p /root/simplelinux
+ADD boot /root/simplelinux/boot
+ADD busybox /root/simplelinux/busybox
+ADD initrd /root/simplelinux/initrd
+ADD kernel /root/simplelinux/kernel
+ADD scripts /root/simplelinux/scripts
+ADD build.sh /root/simplelinux/
+ADD env.sh /root/simplelinux/
 
-WORKDIR /root/build
+WORKDIR /root/simplelinux

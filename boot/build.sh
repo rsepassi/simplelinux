@@ -5,10 +5,10 @@ set -e
 TITLE="Building boot image to $IMG_PATH"
 echo $TITLE
 
-LIMINE_SRCDIR=$ZIGROOT/sources/limine
+LIMINE_SRCDIR=$SLROOT/sources/limine
 BUILD=$LIMINE_SRCDIR/build
 LIMINE=$BUILD/bin/limine
-LIMINE_CFG=$ZIGROOT/boot/limine.cfg
+LIMINE_CFG=$SLROOT/boot/limine.cfg
 BIOS=$BUILD/share/limine/limine-bios.sys
 EFI=$BUILD/share/limine/$EFI_BIN
 FAT=$BUILD/boot.img.fat

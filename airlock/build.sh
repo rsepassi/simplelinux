@@ -1,26 +1,29 @@
-#!/bin/bash
+#!/bin/sh
 
 set -e
 
-ARGS=""
-CMD="/root/build/build.sh"
-
-if [ -v DEBUG ] && [ "$DEBUG" -eq 1 ]
+if [ "${DEBUG}" = "1" ]
 then
   echo "DEBUG enabled. Mounting current directory and dropping into shell"
-  ARGS="-v $PWD:/root/build"
+  ARGS="-v $PWD:/root/simplelinux"
   CMD="/bin/sh"
 else
-  rm -rf sources
+  ARGS=""
+  CMD="/root/simplelinux/build.sh"
   DEBUG=0
+  rm -rf sources
 fi
 
+echo $DEBUG
+exit 1
+
 mkdir -p sources
+mkdir -p $HOME/.cache/simplelinux
 podman build -f airlock/Dockerfile -t airlock .
 podman run -it \
-  -e ZIGROOT_ARCH=$ZIGROOT_ARCH \
-  -v $PWD/sources:/root/build/sources:rw \
-  -v $HOME/.cache/zigroot:/root/.cache/zigroot:ro \
+  -e ARCH=$ARCH \
+  -v $PWD/sources:/root/simplelinux/sources:rw \
+  -v $HOME/.cache/simplelinux:/root/.cache/simplelinux:ro \
   $ARGS \
   airlock $CMD
 [ "$DEBUG" -eq 0 ] && ./scripts/qemu.sh

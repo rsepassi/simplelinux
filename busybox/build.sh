@@ -87,7 +87,7 @@ EOF
 	export PATH="$PATH:$PWD/toolchain"
 }
 
-cd $ZIGROOT/sources/busybox
+cd $SLROOT/sources/busybox
 setup_toolchain
 make clean
 make defconfig HOSTCC="$CROSS_PREFIX-hostcc"

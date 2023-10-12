@@ -1,27 +1,32 @@
 #!/bin/sh
 set -e
 
-TITLE="Building initrd to $INITRD_PATH"
+TITLE="Building initrd archives"
 echo $TITLE
 
-SRC=$ZIGROOT
+SRC=$SLROOT
 DST=$SRC/sources/rootfs
-mkdir -p $DST
 
-# Clear
+# Start fresh
 rm -rf $DST
-
-# Initialize
-cp -r $SRC/initrd/rootfs $DST
+mkdir -p $DST
 cd $DST
 
-# Make directories
+# Setup directories
 mkdir -p usr/bin sys tmp bin root proc
+
+# Copy in init
+cp -r $SRC/initrd/init.sh $DST/init
 
 # Copy in busybox
 cp $SRC/sources/busybox/busybox bin/
 
+# Setup /bin/sh
+ln -s /bin/busybox bin/sh
+
 # Package
-find . | cpio -o -H newc | gzip -9 > $INITRD_PATH
+find . | cpio --quiet -o -H newc | gzip -9 > $INITRD_PATH
+tar -czf $INITRD_TAR_PATH .
+ls -lh $INITRD_PATH $INITRD_TAR_PATH
 
 echo "DONE: $TITLE"

@@ -4,10 +4,10 @@ set -e
 TITLE="Downloading and extracting sources"
 echo $TITLE
 
-SRC=$ZIGROOT/sources
+SRC=$SLROOT/sources
 mkdir -p $SRC
 
-CACHE=$HOME/.cache/zigroot/downloads
+CACHE=$HOME/.cache/simplelinux/downloads
 mkdir -p $CACHE
 cd $CACHE
 

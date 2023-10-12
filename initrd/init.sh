@@ -1,7 +1,7 @@
 #!/bin/sh
 set -e
 
-echo "=== zigroot init ==="
+echo "=== simplelinux init ==="
 /bin/busybox --install -s /usr/bin
 dmesg -n 3
 mount -t proc none /proc
