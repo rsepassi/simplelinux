@@ -3,6 +3,9 @@ set -e
 
 . ./env.sh
 
+rm -rf sources/build
+mkdir -p sources/build
+
 # sources
 ./scripts/download.sh
 
@@ -19,8 +22,6 @@ set -e
 ./boot/build.sh
 
 echo "========================================"
-echo "Build complete"
-echo "Kernel: $KERNEL_PATH"
-echo "initramfs: $INITRD_PATH"
-echo "Bootable disk image: $IMG_PATH"
+echo "Build complete. Output artifacts:"
+ls -lh sources/build
 echo "Run ./scripts/qemu.sh to launch in QEMU"

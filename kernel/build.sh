@@ -36,4 +36,6 @@ echo "Linux configured"
 make $clang_flags -j32
 echo "Linux built"
 
+cp $KERNEL_SRC_PATH $KERNEL_PATH
+
 echo "DONE: $TITLE"

@@ -98,4 +98,6 @@ make -j16 busybox_unstripped
 zig objcopy -S busybox_unstripped busybox
 chmod +x busybox
 
+cp busybox $BUSYBOX_PATH
+
 echo "DONE: $TITLE"

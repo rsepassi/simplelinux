@@ -11,9 +11,11 @@ then
   ARGS="-v $PWD:/root/build"
   CMD="/bin/sh"
 else
+  rm -rf sources
   DEBUG=0
 fi
 
+mkdir -p sources
 podman build -f airlock/Dockerfile -t airlock .
 podman run -it \
   -e ZIGROOT_ARCH=$ZIGROOT_ARCH \

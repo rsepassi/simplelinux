@@ -22,13 +22,15 @@ echo "Limine: v$LIMINE_VERSION"
 echo "====================="
 
 export ZIGROOT=$PWD
-export INITRD_PATH=$ZIGROOT/sources/initramfs.cpio.gz
-export IMG_PATH=$ZIGROOT/sources/zigroot.img
+export INITRD_PATH=$ZIGROOT/sources/build/initramfs.cpio.gz
+export IMG_PATH=$ZIGROOT/sources/build/zigroot.img
+export KERNEL_PATH=$ZIGROOT/sources/build/kernel
+export BUSYBOX_PATH=$ZIGROOT/sources/build/busybox
 
 case "$ZIGROOT_ARCH" in
     x86)
         export KERNEL_ARCH="i386"
-        export KERNEL_PATH=$ZIGROOT/sources/linux/arch/$KERNEL_ARCH/boot/bzImage
+        export KERNEL_SRC_PATH=$ZIGROOT/sources/linux/arch/$KERNEL_ARCH/boot/bzImage
         export QEMU_ARCH="i386"
         export QEMU_ARGS=""
         export QEMU_CONSOLE="ttyS0"
@@ -41,7 +43,7 @@ case "$ZIGROOT_ARCH" in
         ;;
     x86_64)
         export KERNEL_ARCH="x86_64"
-        export KERNEL_PATH=$ZIGROOT/sources/linux/arch/$KERNEL_ARCH/boot/bzImage
+        export KERNEL_SRC_PATH=$ZIGROOT/sources/linux/arch/$KERNEL_ARCH/boot/bzImage
         export QEMU_ARCH="x86_64"
         export QEMU_ARGS=""
         export QEMU_BIOS_ARG="-bios /usr/share/ovmf/OVMF.fd"
@@ -53,7 +55,7 @@ case "$ZIGROOT_ARCH" in
         ;;
     arm64)
         export KERNEL_ARCH="arm64"
-        export KERNEL_PATH=$ZIGROOT/sources/linux/arch/$KERNEL_ARCH/boot/Image
+        export KERNEL_SRC_PATH=$ZIGROOT/sources/linux/arch/$KERNEL_ARCH/boot/Image
         export QEMU_ARCH="aarch64"
         export QEMU_ARGS="-machine virt -cpu cortex-a53 -bios /usr/share/qemu-efi-aarch64/QEMU_EFI.fd"
         export QEMU_BIOS_ARG=""  # already in QEMU_ARGS
@@ -65,7 +67,7 @@ case "$ZIGROOT_ARCH" in
         ;;
     riscv64)
         export KERNEL_ARCH="riscv"
-        export KERNEL_PATH=$ZIGROOT/sources/linux/arch/$KERNEL_ARCH/boot/Image
+        export KERNEL_SRC_PATH=$ZIGROOT/sources/linux/arch/$KERNEL_ARCH/boot/Image
         export QEMU_ARCH="riscv64"
         export QEMU_ARGS="-machine virt"
         # TODO
@@ -78,7 +80,7 @@ case "$ZIGROOT_ARCH" in
         ;;
     arm)
         export KERNEL_ARCH="arm"
-        export KERNEL_PATH=$ZIGROOT/sources/linux/arch/$KERNEL_ARCH/boot/zImage
+        export KERNEL_SRC_PATH=$ZIGROOT/sources/linux/arch/$KERNEL_ARCH/boot/zImage
         export QEMU_ARCH="arm"
         export QEMU_CONSOLE="ttyAMA0"
         export QEMU_ARGS="-machine virt -cpu cortex-a15 -bios /usr/share/AAVMF/AAVMF32_CODE.fd"
