@@ -14,9 +14,6 @@ else
   rm -rf sources
 fi
 
-echo $DEBUG
-exit 1
-
 mkdir -p sources
 mkdir -p $HOME/.cache/simplelinux
 podman build -f airlock/Dockerfile -t airlock .
