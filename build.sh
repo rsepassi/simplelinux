@@ -3,8 +3,8 @@ set -e
 
 . ./env.sh
 
-rm -rf sources/build
-mkdir -p sources/build
+mkdir -p $BUILD_DIR
+rm -rf $BUILD_DIR/*
 
 # sources
 ./scripts/download.sh
@@ -23,5 +23,5 @@ mkdir -p sources/build
 
 echo "========================================"
 echo "Build complete. Output artifacts:"
-ls -lh sources/build
+ls -lh $BUILD_DIR
 echo "Run ./scripts/qemu.sh to launch in QEMU"

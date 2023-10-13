@@ -11,15 +11,15 @@ else
   ARGS=""
   CMD="/root/simplelinux/build.sh"
   DEBUG=0
-  rm -rf sources
+  rm -rf sources/build/$ARCH
 fi
 
-mkdir -p sources
+mkdir -p sources/build/$ARCH
 mkdir -p $HOME/.cache/simplelinux
 podman build -f airlock/Dockerfile -t airlock .
 podman run -it \
   -e ARCH=$ARCH \
-  -v $PWD/sources:/root/simplelinux/sources:rw \
+  -v $PWD/sources/build/$ARCH:/root/simplelinux/sources/build/$ARCH:rw \
   -v $HOME/.cache/simplelinux:/root/.cache/simplelinux:ro \
   $ARGS \
   airlock $CMD

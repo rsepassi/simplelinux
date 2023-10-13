@@ -38,8 +38,9 @@ Here are all the sources in the repo.
     ./boot/build.sh        # build bootable image
 
 # Files copied into initramfs
-./initrd/init.sh   # the /init program
-./boot/limine.cfg  # bootloader config
+./initrd/init.sh        # the /init program
+./boot/limine.cfg       # bootloader config for BIOS/UEFI systems
+./boot/limine_uefi.cfg  # bootloader config for UEFI-only systems
 
 # Extract initramfs and run it in Podman
 ./scripts/podman.sh
@@ -52,8 +53,6 @@ Here are all the sources in the repo.
 ./airlock/Dockerfile  # Alpine-based build image
 ```
 
-Total lines: 595
-
 ```
 # find . -type f | \
          grep -v "\/\.git\/" | \
@@ -63,11 +62,11 @@ Total lines: 595
          grep -v "\.gitignore" | \
     xargs wc -l | sort -nr
 
-  595 total
-  112 ./boot/build.sh
+  623 total
+  119 ./boot/build.sh
   103 ./busybox/build.sh
-   93 ./env.sh
-   57 ./scripts/qemu.sh
+  100 ./env.sh
+   60 ./scripts/qemu.sh
    43 ./kernel/build.sh
    32 ./initrd/build.sh
    30 ./scripts/download.sh
@@ -77,13 +76,34 @@ Total lines: 595
    21 ./scripts/podman.sh
    13 ./initrd/init.sh
    13 ./boot/limine.cfg
+   13 ./boot/limine_uefi.cfg
 ```
+
+## Notes
+
+The bootable image `simplelinux.img` has support for:
+* `x86`: BIOS, UEFI
+* `x86_64`: BIOS, UEFI
+* `arm`: UEFI
+  * Limine does not support arm, but because the Linux kernel can act as an
+    EFI executable, simplelinux inserts a `startup.nsh` script which will be
+    run by the UEFI shell. Note that the UEFI shell is typically the last boot
+    method tried by UEFI and so you may have to wait until all the other methods
+    are tried and fail ("UEFI Misc Device", "UEFI Misc Device 2", "UEFI PXEv4",
+    "UEFI PXEv6", "HTTP Boot over IPv4", "HTTP Boot over IPv6", ...).
+* `arm64`: UEFI
+* `riscv64`: UEFI
+
+Note that to run the images on QEMU with UEFI, paths to the UEFI firmware must
+be passed to QEMU. See `QEMU_BIOS_ARG` in `env.sh`.
+
+All have been tested except for riscv64, for which UEFI firmware is not readily
+available (let me know if you can test this; the image is UEFI compatible).
 
 ## Some todos
 
 * Test that this all works from an `arm64` host (currently only has been tested
   from a `x86_64` host)
-* Make the bootable image work across architectures (BIOS+UEFI)
 * Add networking
 * Add ssh
 * Add an init system (runit or OpenRC)

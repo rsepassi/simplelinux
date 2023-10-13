@@ -14,7 +14,7 @@ exec /bin/sh
 EOF
 chmod +x $TMP/init.sh
 
-podman import sources/build/initramfs.tar.gz simplelinux
+podman import sources/build/$ARCH/initramfs.tar.gz simplelinux
 podman run \
         -v $TMP:/boot/podman:ro \
         -it simplelinux \

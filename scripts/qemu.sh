@@ -13,6 +13,7 @@ stty intr ^]
 case "$QEMU_RUN_MODE" in
   # Bootable disk image
   img)
+      echo "Running image $IMG_PATH with $QEMU_BIOS_ARG"
       qemu-system-$QEMU_ARCH \
         $QEMU_ARGS \
         $QEMU_BIOS_ARG \
@@ -24,6 +25,7 @@ case "$QEMU_RUN_MODE" in
 
   # Kernel + initrd
   kernel)
+      echo "Running kernel $KERNEL_PATH and initrd $INITRD_PATH"
       qemu-system-$QEMU_ARCH \
         $QEMU_ARGS \
         -m 256M \
@@ -36,6 +38,7 @@ case "$QEMU_RUN_MODE" in
 
   # microvm + KVM
   microvm)
+      echo "Running kernel $KERNEL_PATH and initrd $INITRD_PATH on microvm"
       qemu-system-$QEMU_ARCH \
         $QEMU_ARGS \
         -m 256M \

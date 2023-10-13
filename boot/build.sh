@@ -8,10 +8,11 @@ echo $TITLE
 LIMINE_SRCDIR=$SLROOT/sources/limine
 BUILD=$LIMINE_SRCDIR/build
 LIMINE=$BUILD/bin/limine
-LIMINE_CFG=$SLROOT/boot/limine.cfg
+LIMINE_CFG_PATH=$SLROOT/boot/$LIMINE_CFG
 BIOS=$BUILD/share/limine/limine-bios.sys
 EFI=$BUILD/share/limine/$EFI_BIN
 FAT=$BUILD/boot.img.fat
+STARTUP_NSH=$BUILD/startup.nsh
 
 rm -f $IMG_PATH
 rm -rf $BUILD
@@ -71,6 +72,7 @@ build_limine
 #   * Padding
 # * 1MiB - 63MiB: FAT32 EFI system partition
 #     /EFI/BOOT/BOOT<ARCH>.EFI
+#     /EFI/BOOT/startup.nsh
 #     /boot/limine-bios.sys
 #     /boot/limine.cfg
 #     /kernel
@@ -85,13 +87,18 @@ fat_sectors=$(( ( fat_mb << 20 ) / 512 ))
 gpt_sectors=$(( ( ( fat_mb + 2 ) << 20 ) / 512 ))
 fat_offset=$(( ( 1 << 20 ) / 512 ))
 
+cat << EOF > $STARTUP_NSH
+kernel initrd=initrd console=$QEMU_CONSOLE
+EOF
+
 # Create and populate FAT32 partition
 dd if=/dev/zero of=$FAT bs=$sector_size count=$fat_sectors
 mformat -F -i $FAT ::
 mmd -i $FAT ::/boot ::/EFI ::/EFI/BOOT
 mcopy -i $FAT $EFI ::/EFI/BOOT/$EFI_BIN
+mcopy -i $FAT $STARTUP_NSH ::/EFI/BOOT/startup.nsh
 mcopy -i $FAT $BIOS ::/boot/limine-bios.sys
-mcopy -i $FAT $LIMINE_CFG ::/boot/limine.cfg
+mcopy -i $FAT $LIMINE_CFG_PATH ::/boot/limine.cfg
 mcopy -i $FAT $KERNEL_PATH ::/kernel
 mcopy -i $FAT $INITRD_PATH ::/initrd
 mdir -i $FAT ::
