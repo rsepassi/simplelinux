@@ -15,7 +15,7 @@ Build outputs will be available in `sources/build`:
 * `kernel`
 * `initramfs.cpio.gz`, `initramfs.tar.gz`
 * `busybox`
-* `simplelinux.iso`
+* `simplelinux.img`
 
 To run the built kernel and initramfs in QEMU:
 
@@ -79,7 +79,7 @@ Total lines: 595
    13 ./boot/limine.cfg
 ```
 
-## Future directions
+## Some todos
 
 * Test that this all works from an `arm64` host (currently only has been tested
   from a `x86_64` host)
