@@ -5,6 +5,7 @@ done.
 
 ```
 # Runs build in a container, see airlock/Dockerfile
+# Requires podman to build and qemu-system-* to run the resulting kernel
 ARCH=x86_64 ./airlock/build.sh
 ```
 
