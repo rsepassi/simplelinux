@@ -2,25 +2,37 @@
 
 set -e
 
-if [ "${DEBUG}" = "1" ]
+DEBUG=${DEBUG:-0}
+QEMU=${QEMU:-0}
+
+OUTPUT_DIR=$PWD/sources/build/$ARCH
+CACHE_DIR=$HOME/.cache/simplelinux
+
+if [ "${DEBUG}" -eq 1 ]
 then
   echo "DEBUG enabled. Mounting current directory and dropping into shell"
-  ARGS="-v $PWD:/root/simplelinux"
+  ARGS="-v $PWD:/root/simplelinux:rw"
   CMD="/bin/sh"
 else
   ARGS=""
   CMD="/root/simplelinux/build.sh"
-  DEBUG=0
-  rm -rf sources/build/$ARCH
 fi
 
-mkdir -p sources/build/$ARCH
-mkdir -p $HOME/.cache/simplelinux
+[ "${DEBUG}" -eq 1 ] || rm -rf $OUTPUT_DIR
+mkdir -p $OUTPUT_DIR
+mkdir -p $CACHE_DIR
+
 podman build -f airlock/Dockerfile -t airlock .
+
 podman run -it \
   -e ARCH=$ARCH \
-  -v $PWD/sources/build/$ARCH:/root/simplelinux/sources/build/$ARCH:rw \
-  -v $HOME/.cache/simplelinux:/root/.cache/simplelinux:rw \
+  -v $OUTPUT_DIR:/root/simplelinux/sources/build/$ARCH:rw \
+  -v $CACHE_DIR:/root/.cache/simplelinux:rw \
   $ARGS \
-  airlock $CMD
-[ "$DEBUG" -eq 0 ] && ./scripts/qemu.sh
+  airlock \
+  $CMD
+
+echo "Output directory: $OUTPUT_DIR"
+ls -lh $OUTPUT_DIR
+
+[ "${QEMU}" -eq 1 ] && ./scripts/qemu.sh

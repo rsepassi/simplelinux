@@ -4,8 +4,11 @@ set -e
 
 . ./env.sh
 
+QEMU_RUN_MODE="${MODE:-kernel}"
+
 echo "Launching qemu-system-$QEMU_ARCH"
 echo "QEMU_ARGS=$QEMU_ARGS"
+echo "MODE=$QEMU_RUN_MODE"
 
 echo "to interrupt: CTRL-]"
 stty intr ^]

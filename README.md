@@ -102,8 +102,6 @@ available (let me know if you can test this; the image is UEFI compatible).
 
 ## Some todos
 
-* Test that this all works from an `arm64` host (currently only has been tested
-  from a `x86_64` host)
 * Add networking
 * Add ssh
 * Add an init system (runit or OpenRC)

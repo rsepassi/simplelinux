@@ -56,7 +56,7 @@ build_limine() {
     ./configure --prefix=$BUILD \
     --enable-uefi-$LIMINE_ARCH \
     --enable-bios
-  make -j64 install
+  make "-j$BUILD_PARALLELISM" install
   find $BUILD -type f | grep -v "/doc/" | grep -v "/man/"
   cd $BUILD
 }
@@ -70,7 +70,7 @@ build_limine
 #   * Protective MBR: contains bios bootloader
 #   * Primary GPT metadata
 #   * Padding
-# * 1MiB - 63MiB: FAT32 EFI system partition
+# * 1MiB - 63MiB: FAT16 EFI system partition
 #     /EFI/BOOT/BOOT<ARCH>.EFI
 #     /EFI/BOOT/startup.nsh
 #     /boot/limine-bios.sys
@@ -91,9 +91,9 @@ cat << EOF > $STARTUP_NSH
 kernel initrd=initrd console=$QEMU_CONSOLE
 EOF
 
-# Create and populate FAT32 partition
+# Create and populate FAT16 partition
 dd if=/dev/zero of=$FAT bs=$sector_size count=$fat_sectors
-mformat -F -i $FAT ::
+mformat -i $FAT ::
 mmd -i $FAT ::/boot ::/EFI ::/EFI/BOOT
 mcopy -i $FAT $EFI ::/EFI/BOOT/$EFI_BIN
 mcopy -i $FAT $STARTUP_NSH ::/EFI/BOOT/startup.nsh
@@ -109,7 +109,7 @@ end_str="$(( fat_mb + 1 ))MiB"
 parted -s $IMG_PATH -- \
   unit MiB \
   mklabel gpt \
-  mkpart primary fat32 1MiB $end_str \
+  mkpart primary fat16 1MiB $end_str \
   set 1 esp on
 parted -s $IMG_PATH -- unit MiB print
 dd if=$FAT of=$IMG_PATH bs=$sector_size seek=$fat_offset conv=notrunc

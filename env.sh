@@ -1,11 +1,7 @@
 echo "Loading env.sh"
 
-if [ -z "$ARCH" ]; then
-    export ARCH="$(uname -m)"
-fi
-if [ -z "$QEMU_RUN_MODE" ]; then
-    export QEMU_RUN_MODE="kernel"
-fi
+ARCH=${ARCH:-$(uname -m)}
+
 export BUSYBOX_VERSION="1.36.0"
 export LINUX_VERSION="6.5.7"
 export LIMINE_VERSION="5.20231006.0"
@@ -14,11 +10,9 @@ export SLROOT=$PWD
 export BUILD_DIR=$SLROOT/sources/build/$ARCH
 
 ARCHS="x86 x86_64 arm arm64 riscv64"
-QEMU_MODES="img kernel microvm"
 
 echo "=== Configuration ==="
 echo "Architecture ($ARCHS): $ARCH"
-echo "QEMU run mode ($QEMU_MODES): $QEMU_RUN_MODE"
 echo "Busybox: v$BUSYBOX_VERSION"
 echo "Linux: v$LINUX_VERSION"
 echo "Limine: v$LIMINE_VERSION"
@@ -30,6 +24,15 @@ export INITRD_TAR_PATH=$BUILD_DIR/initramfs.tar.gz
 export IMG_PATH=$BUILD_DIR/simplelinux.img
 export KERNEL_PATH=$BUILD_DIR/kernel
 export BUSYBOX_PATH=$BUILD_DIR/busybox
+
+n=$(nproc)
+m=16
+if [ "$n" -gt "$m" ]
+then
+  export BUILD_PARALLELISM=$m
+else
+  export BUILD_PARALLELISM=$n
+fi
 
 case "$ARCH" in
     x86)

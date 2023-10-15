@@ -1,11 +1,5 @@
 #!/bin/sh
-#
-# This script statically compiles busybox using a Zig-based cross-compile
-# toochain, which this script sets up.
-#
-# Zig is used here because of its ability to cleanly cross-compile; it packages
-# within itself things that would otherwise need to be carefully setup on the
-# host system (specifically OS headers and C libraries).
+# Cross-compile BusyBox using Zig.
 
 set -e
 
@@ -18,9 +12,8 @@ setup_toolchain() {
   rm -rf toolchain
   mkdir toolchain
 
-  # zig cc is almost, but not quite, a drop-in replacement for clang. These
-  # flags need to be either rewritten or ignored for things to work. These do
-  # not affect busybox functionality at all.
+  # Zig doesn't properly handle these flags so we have to rewrite/ignore.
+  # None of these affect the actual compilation target.
   local_rewrite_utility=$(cat << EOF
 rewrite_flags() {
     transformed_args=""
@@ -48,41 +41,19 @@ EOF
   local_ar="toolchain/$CROSS_PREFIX-ar"
   cat << EOF > $local_ar
 #!/bin/sh
-echo "-- \$@ --" >> /tmp/arargs
-zig ar "\$@"
+llvm-ar "\$@"
 EOF
   chmod +x $local_ar
 
   local_gcc="toolchain/$CROSS_PREFIX-gcc"
   cat << EOF > $local_gcc
 #!/bin/sh
-
 $local_rewrite_utility
 
-if [ \$# -gt 0 ]
-then
-  zig cc --target=$ZIG_ARCH-linux-$ZIG_ABI -fuse-ld=lld \
-    -Wno-unused-command-line-argument \
-    -Wno-string-plus-int \
-    -Wno-ignored-optimization-argument \
-    -Wincompatible-pointer-types-discards-qualifiers \
-    \$(rewrite_flags "\$@")
-fi
+zig cc --target=$ZIG_ARCH-linux-$ZIG_ABI -fuse-ld=lld \
+  \$(rewrite_flags "\$@")
 EOF
   chmod +x $local_gcc
-
-  local_hostcc="toolchain/$CROSS_PREFIX-hostcc"
-  cat << EOF > $local_hostcc
-#!/bin/sh
-
-$local_rewrite_utility
-
-if [ \$# -gt 0 ]
-then
-  zig cc \$(rewrite_flags "\$@")
-fi
-EOF
-  chmod +x $local_hostcc
 
 	export PATH="$PATH:$PWD/toolchain"
 }
@@ -90,12 +61,11 @@ EOF
 cd $SLROOT/sources/busybox
 setup_toolchain
 make clean
-make defconfig HOSTCC="$CROSS_PREFIX-hostcc"
+make defconfig HOSTCC="clang"
+sed -i '/# CONFIG_STATIC is not set/c\CONFIG_STATIC=y' .config
 
-LDFLAGS="--static" \
-CROSS_COMPILE="$CROSS_PREFIX-" \
-make -j16 busybox_unstripped
-zig objcopy -S busybox_unstripped busybox
+CROSS_COMPILE="$CROSS_PREFIX-" make "-j$BUILD_PARALLELISM" busybox_unstripped
+llvm-objcopy --strip-all busybox_unstripped busybox
 chmod +x busybox
 
 cp busybox $BUSYBOX_PATH
