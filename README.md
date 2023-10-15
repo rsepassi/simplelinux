@@ -57,6 +57,7 @@ Here are all the sources in the repo.
 # find . -type f | \
          grep -v "\/\.git\/" | \
          grep -v "\/sources\/" | \
+         grep -v "\/configs\/" | \
          grep -v "README" | \
          grep -v "LICENSE" | \
          grep -v "\.gitignore" | \
@@ -80,6 +81,39 @@ Here are all the sources in the repo.
 ```
 
 ## Notes
+
+### Kernel configuration
+
+By default, the Linux kernel is configured with its `defconfig` make rule.
+To specify an alternative config, you can place a configuration file in
+`kernel/configs/$KERNEL_ARCH/some_config_name`.
+
+The available ones in the repo for `x86_64` are:
+* `defconfig`: `clangmake defconfig`
+* `allnoconfig`: `clangmake allnoconfig`
+* `minconfig` (compressed kernel <2M): allnoconfig + the following:
+    ```
+        -> General setup
+            Initial RAM filesystem and RAM disk (initramfs/initrd) support
+              Only gzip compression
+            Configure standard kernel features
+              Deselect debug symbols
+        -> Executable file formats
+            Kernel support for ELF binaries
+            Kernel support for scripts starting with #!
+            Disable core dump support
+        -> Device Drivers
+          -> Character devices
+            8250/16550 and compatible serial support
+            Console on 8250/16550 and compatible serial port
+        -> Kernel hacking
+          -> printk and dmesg options
+            Show timing information on printks
+    ```
+
+`clangmake` is the `make` wrapper generated in `kernel/build.sh`.
+
+### Boot image
 
 The bootable image `simplelinux.img` has support for:
 * `x86`: BIOS, UEFI

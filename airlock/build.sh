@@ -26,6 +26,7 @@ podman build -f airlock/Dockerfile -t airlock .
 
 podman run -it \
   -e ARCH=$ARCH \
+  -e KERNEL_CONFIG=$KERNEL_CONFIG \
   -v $OUTPUT_DIR:/root/simplelinux/sources/build/$ARCH:rw \
   -v $CACHE_DIR:/root/.cache/simplelinux:rw \
   $ARGS \

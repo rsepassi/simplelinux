@@ -1,6 +1,7 @@
 echo "Loading env.sh"
 
 ARCH=${ARCH:-$(uname -m)}
+KERNEL_CONFIG=${KERNEL_CONFIG:-default}
 
 export BUSYBOX_VERSION="1.36.0"
 export LINUX_VERSION="6.5.7"
@@ -15,6 +16,7 @@ echo "=== Configuration ==="
 echo "Architecture ($ARCHS): $ARCH"
 echo "Busybox: v$BUSYBOX_VERSION"
 echo "Linux: v$LINUX_VERSION"
+echo "Linux kernel config: $KERNEL_CONFIG"
 echo "Limine: v$LIMINE_VERSION"
 echo "Output directory: $BUILD_DIR"
 echo "====================="

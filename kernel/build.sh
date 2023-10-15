@@ -4,7 +4,8 @@ set -e
 TITLE="Building Linux kernel for $KERNEL_ARCH to $KERNEL_PATH"
 echo $TITLE
 
-cd sources/linux
+cd $SLROOT/sources/linux
+
 cat << EOF > clangmake
 #!/bin/sh
 # https://docs.kernel.org/kbuild/llvm.html
@@ -25,13 +26,21 @@ make \
   HOSTLD=ld.lld \
   "\$@"
 EOF
+chmod +x clangmake
 
 # Start fresh
 ./clangmake clean
 echo "Linux cleaned"
 
 # Configure
-./clangmake defconfig
+if [ "$KERNEL_CONFIG" = "default" ]
+then
+  ./clangmake defconfig
+else
+  config=$SLROOT/kernel/configs/$KERNEL_ARCH/$KERNEL_CONFIG
+  echo "Using configuration $config"
+  cp $config .config
+fi
 echo "Linux configured"
 
 # Build
