@@ -20,7 +20,7 @@ podman build -f airlock/Dockerfile -t airlock .
 podman run -it \
   -e ARCH=$ARCH \
   -v $PWD/sources/build/$ARCH:/root/simplelinux/sources/build/$ARCH:rw \
-  -v $HOME/.cache/simplelinux:/root/.cache/simplelinux:ro \
+  -v $HOME/.cache/simplelinux:/root/.cache/simplelinux:rw \
   $ARGS \
   airlock $CMD
 [ "$DEBUG" -eq 0 ] && ./scripts/qemu.sh
