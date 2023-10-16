@@ -106,9 +106,6 @@ The available ones in the repo for `x86_64` are:
           -> Character devices
             8250/16550 and compatible serial support
             Console on 8250/16550 and compatible serial port
-        -> Kernel hacking
-          -> printk and dmesg options
-            Show timing information on printks
     ```
 * `minconfig_kvm` (compressed kernel <3M): `minconfig` +
   `clangmake kvm_guest.config`
