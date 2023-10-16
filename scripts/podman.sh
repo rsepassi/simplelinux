@@ -2,7 +2,10 @@
 
 set -e
 
-echo "Launching in Podman"
+ARCH=${ARCH:-$(uname -m)}
+SRC=sources/build/$ARCH/initramfs.tar.gz
+
+echo "Launching $SRC in Podman"
 
 TMP=$(mktemp -d)
 cat <<EOF > $TMP/init.sh
@@ -14,7 +17,7 @@ exec /bin/sh
 EOF
 chmod +x $TMP/init.sh
 
-podman import sources/build/$ARCH/initramfs.tar.gz simplelinux
+podman import $SRC simplelinux
 podman run \
         -v $TMP:/boot/podman:ro \
         -it simplelinux \
