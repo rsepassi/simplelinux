@@ -64,7 +64,17 @@ make clean
 make defconfig HOSTCC="clang"
 sed -i '/# CONFIG_STATIC is not set/c\CONFIG_STATIC=y' .config
 
-CROSS_COMPILE="$CROSS_PREFIX-" make "-j$BUILD_PARALLELISM" busybox_unstripped
+# Limit parallelism. Hits segfaults if it is too high.
+n=$(nproc)
+m=16
+if [ "$n" -gt "$m" ]
+then
+  jn=$m
+else
+  jn=$n
+fi
+
+CROSS_COMPILE="$CROSS_PREFIX-" make "-j$jn" busybox_unstripped
 llvm-objcopy --strip-all busybox_unstripped busybox
 chmod +x busybox
 

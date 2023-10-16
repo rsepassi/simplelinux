@@ -20,43 +20,13 @@ rm -rf $BUILD
 mkdir -p $BUILD
 cd $BUILD
 
-setup_toolchain() {
-  rm -rf $BUILD/toolchain
-  mkdir $BUILD/toolchain
-
-  local_tools="
-  llvm-addr2line
-  llvm-ar
-  clang
-  clang++
-  llvm-cxxfilt
-  ld.lld
-  llvm-nm
-  llvm-objcopy
-  llvm-objdump
-  llvm-readelf
-  llvm-size
-  llvm-strings
-  llvm-strip
-  "
-
-  for local_tool in $local_tools
-  do
-    local_full="$local_tool"
-    local_path=$(which $local_full)
-    ln -s $local_path $BUILD/toolchain/$local_tool
-  done
-  export PATH="$PATH:$BUILD/toolchain"
-}
-
 build_limine() {
   cd $LIMINE_SRCDIR
-  setup_toolchain
   TOOLCHAIN_FOR_TARGET="llvm" \
     ./configure --prefix=$BUILD \
     --enable-uefi-$LIMINE_ARCH \
     --enable-bios
-  make "-j$BUILD_PARALLELISM" install
+    make "-j$(nproc)" install
   find $BUILD -type f | grep -v "/doc/" | grep -v "/man/"
   cd $BUILD
 }

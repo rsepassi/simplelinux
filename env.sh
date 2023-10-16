@@ -27,15 +27,6 @@ export IMG_PATH=$BUILD_DIR/simplelinux.img
 export KERNEL_PATH=$BUILD_DIR/kernel
 export BUSYBOX_PATH=$BUILD_DIR/busybox
 
-n=$(nproc)
-m=16
-if [ "$n" -gt "$m" ]
-then
-  export BUILD_PARALLELISM=$m
-else
-  export BUILD_PARALLELISM=$n
-fi
-
 case "$ARCH" in
     x86)
         export KERNEL_ARCH="i386"

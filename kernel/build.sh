@@ -44,7 +44,7 @@ fi
 echo "Linux configured"
 
 # Build
-./clangmake "-j$BUILD_PARALLELISM"
+./clangmake "-j$(nproc)"
 echo "Linux built"
 
 cp $KERNEL_SRC_PATH $KERNEL_PATH
