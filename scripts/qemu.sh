@@ -51,7 +51,7 @@ case "$QEMU_RUN_MODE" in
         -display none \
         -kernel $KERNEL_PATH \
         -initrd $INITRD_PATH \
-        -append "console=$QEMU_CONSOLE"
+        -append "console=$QEMU_CONSOLE quiet loglevel=3"
       ;;
 
   *)
