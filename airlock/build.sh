@@ -22,7 +22,7 @@ fi
 mkdir -p $OUTPUT_DIR
 mkdir -p $CACHE_DIR
 
-podman build -f airlock/Dockerfile -t airlock .
+podman build -f airlock/Dockerfile -t simplelinux-airlock .
 
 podman run -it \
   -e ARCH=$ARCH \
@@ -30,7 +30,7 @@ podman run -it \
   -v $OUTPUT_DIR:/root/simplelinux/sources/build/$ARCH:rw \
   -v $CACHE_DIR:/root/.cache/simplelinux:rw \
   $ARGS \
-  airlock \
+  simplelinux-airlock \
   $CMD
 
 echo "Output directory: $OUTPUT_DIR"
