@@ -38,7 +38,7 @@ hostname -F /etc/hostname
 udhcpc -i eth0 -S -s /etc/udhcp/simple.script >/dev/null 2>&1
 initlog "Networking setup"
 
-dropbear -sgjk -R
+dropbear -sg -R
 initlog "SSH setup"
 
 initlog "simplelinux init complete"
