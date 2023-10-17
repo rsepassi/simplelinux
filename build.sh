@@ -12,8 +12,11 @@ rm -rf $BUILD_DIR/*
 # busybox
 ./busybox/build.sh
 
-# kernel
+# linux
 ./kernel/build.sh
+
+# dropbear
+./ssh/build.sh
 
 # ramfs
 ./initrd/build.sh

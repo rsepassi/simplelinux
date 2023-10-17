@@ -8,17 +8,24 @@ SRC=sources/build/$ARCH/initramfs.tar.gz
 echo "Launching $SRC in Podman"
 
 TMP=$(mktemp -d)
-cat <<EOF > $TMP/init.sh
+mkdir $TMP/boot
+cat <<EOF > $TMP/boot/init.sh
 #!/bin/sh
-echo simplelinux Podman init
+echo "simplelinux Podman init"
+
 busybox --install -s /usr/bin
-HOME=/root
+
+export USER=root
+export HOME=/root
+
+dropbear -sgjk
+
 exec /bin/sh
 EOF
-chmod +x $TMP/init.sh
+chmod +x $TMP/boot/init.sh
 
 podman import $SRC simplelinux
 podman run \
-        -v $TMP:/boot/podman:ro \
+        -v $TMP/boot:/boot/podman:ro \
         -it simplelinux \
         /boot/podman/init.sh

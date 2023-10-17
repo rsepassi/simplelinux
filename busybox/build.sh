@@ -50,7 +50,10 @@ EOF
 #!/bin/sh
 $local_rewrite_utility
 
-zig cc --target=$ZIG_ARCH-linux-$ZIG_ABI -fuse-ld=lld \
+zig cc --target=$ZIG_TARGET -fuse-ld=lld \
+  -DBB_GLOBAL_CONST='' \
+  -Wno-unused-command-line-argument \
+  -Wno-ignored-optimization-argument \
   \$(rewrite_flags "\$@")
 EOF
   chmod +x $local_gcc
@@ -64,17 +67,7 @@ make clean
 make defconfig HOSTCC="clang"
 sed -i '/# CONFIG_STATIC is not set/c\CONFIG_STATIC=y' .config
 
-# Limit parallelism. Hits segfaults if it is too high.
-n=$(nproc)
-m=16
-if [ "$n" -gt "$m" ]
-then
-  jn=$m
-else
-  jn=$n
-fi
-
-CROSS_COMPILE="$CROSS_PREFIX-" make "-j$jn" busybox_unstripped
+CROSS_COMPILE="$CROSS_PREFIX-" make "-j$BUILD_PARALLELISM" busybox_unstripped
 llvm-objcopy --strip-all busybox_unstripped busybox
 chmod +x busybox
 

@@ -26,7 +26,7 @@ build_limine() {
     ./configure --prefix=$BUILD \
     --enable-uefi-$LIMINE_ARCH \
     --enable-bios
-    make "-j$(nproc)" install
+    make "-j$BUILD_PARALLELISM" install
   find $BUILD -type f | grep -v "/doc/" | grep -v "/man/"
   cd $BUILD
 }

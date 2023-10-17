@@ -16,6 +16,7 @@ Build outputs will be available in `sources/build`:
 * `initramfs.cpio.gz`, `initramfs.tar.gz`
 * `busybox`
 * `simplelinux.img`
+* `dropbear`
 
 To run the built kernel and initramfs in QEMU:
 
@@ -34,11 +35,12 @@ Here are all the sources in the repo.
     ./scripts/download.sh  # wget sources
     ./busybox/build.sh     # build busybox
     ./kernel/build.sh      # build Linux
+    ./ssh/build.sh         # build dropbear
     ./initrd/build.sh      # build initramfs
     ./boot/build.sh        # build bootable image
 
 # Files copied into initramfs
-./initrd/init.sh        # the /init program
+./initrd/init.sh        # run as rcS by busybox init
 ./boot/limine.cfg       # bootloader config for BIOS/UEFI systems
 ./boot/limine_uefi.cfg  # bootloader config for UEFI-only systems
 
@@ -63,24 +65,40 @@ Here are all the sources in the repo.
          grep -v "\.gitignore" | \
     xargs wc -l | sort -nr
 
-  623 total
-  119 ./boot/build.sh
-  103 ./busybox/build.sh
-  100 ./env.sh
-   60 ./scripts/qemu.sh
-   43 ./kernel/build.sh
-   32 ./initrd/build.sh
-   30 ./scripts/download.sh
-   27 ./build.sh
-   26 ./airlock/build.sh
+  718 total
+  110 ./env.sh
+   89 ./boot/build.sh
+   76 ./busybox/build.sh
+   69 ./scripts/qemu.sh
+   63 ./initrd/build.sh
+   53 ./initrd/init.sh
+   52 ./kernel/build.sh
+   40 ./airlock/build.sh
+   32 ./scripts/download.sh
+   31 ./scripts/podman.sh
+   30 ./build.sh
    25 ./airlock/Dockerfile
-   21 ./scripts/podman.sh
-   13 ./initrd/init.sh
+   24 ./ssh/build.sh
    13 ./boot/limine.cfg
-   13 ./boot/limine_uefi.cfg
+   11 ./boot/limine_uefi.cfg
 ```
 
 ## Notes
+
+### Init
+
+`simplelinux` uses BusyBox init (for now). `initrd/init.sh` is the entire
+init script. It does the following:
+* Add busybox symlinks
+* Quiet kernel logging
+* Mount pseudo filesystems
+* Setup `syslogd` to log to a circular buffer (use `logread -F` to read)
+* Setup `ntpd` to keep time using ntp.org servers
+* Setup `crond` to run cron jobs
+* Setup networking for eth0 with `udhcpc`
+* Setup ssh with `dropbear`
+
+That's it.
 
 ### Kernel configuration
 
@@ -135,19 +153,9 @@ available (let me know if you can test this; the image is UEFI compatible).
 
 ## Some todos
 
-* Add networking
-* Add ssh
-* Add an init system (runit or OpenRC)
+* Consider init/supervisor systems (runit or OpenRC)
+* Add cron
 * Add a (encrypted) disk
-* Minimal image that can
-  * Run a static C/Zig binary
-  * Build a static C/Zig binary
-  * Run a dynamic C/Zig binary
-  * Build a dynamic C/Zig binary
-  * Run Podman
-  * Build itself
-  * Emulate itself
-* Investigate Secure Boot and encrypted filesystems
 * Run on cloud
 * Run on real hardware
   * Server
