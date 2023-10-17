@@ -1,27 +1,32 @@
 # simplelinux
 
-Compile a Linux kernel and BusyBox, and keep it simple enough to see how it's
-done.
+A simple Linux distribution that you can read and edit yourself.
+
+Cross-compile in a Podman airlock:
 
 ```
-# Runs build in a container, see airlock/Dockerfile
-# Requires podman to build and qemu-system-* to run the resulting kernel
 ARCH=x86_64 ./airlock/build.sh
 ```
 
-Can cross-compile to `{x86, x86_64, riscv64, arm, arm64}`.
+Supports cross-compiling to `{x86, x86_64, riscv64, arm, arm64}`.
 
-Build outputs will be available in `sources/build`:
+Build outputs available in `sources/build/$ARCH`:
 * `kernel`
 * `initramfs.cpio.gz`, `initramfs.tar.gz`
-* `busybox`
 * `simplelinux.img`
+* `busybox`
 * `dropbear`
 
 To run the built kernel and initramfs in QEMU:
 
 ```
-./scripts/qemu.sh
+ARCH=x86_64 ./scripts/qemu.sh
+```
+
+To load the initramfs in Podman:
+
+```
+ARCH=x86_64 ./scripts/podman.sh
 ```
 
 ## Tour
@@ -85,6 +90,17 @@ Here are all the sources in the repo.
 
 ## Notes
 
+### Options
+
+```
+ARCH=x86_64           \  # one of {x86, x86_64, arm, arm64, riscv64}
+KERNEL_CONFIG=default \  # one of the names in kernel/configs/$ARCH
+SSH_KEY="$mykey"      \  # a public key to put into /root/.ssh/authorized_keys
+DEBUG=0               \  # if 1, mounts ./ and drops into shell
+QEMU=0                \  # if 1, runs built artifacts in QEMU
+./airlock/build.sh
+```
+
 ### Init
 
 `simplelinux` uses BusyBox init (for now). `initrd/init.sh` is the entire
@@ -92,11 +108,17 @@ init script. It does the following:
 * Add busybox symlinks
 * Quiet kernel logging
 * Mount pseudo filesystems
-* Setup `syslogd` to log to a circular buffer (use `logread -F` to read)
+* Setup `syslogd` to log to a circular buffer
+  * Use `logread` to read
+  * Use `logger` to log
 * Setup `ntpd` to keep time using ntp.org servers
 * Setup `crond` to run cron jobs
+  * Per-user crontabs in `/var/spool/cron/crontabs`
 * Setup networking for eth0 with `udhcpc`
 * Setup ssh with `dropbear`
+  * Creates a server key at `/etc/dropbear/dropbear_ed25519_host_key` on first
+    ssh connection
+  * Authorized keys
 
 That's it.
 
