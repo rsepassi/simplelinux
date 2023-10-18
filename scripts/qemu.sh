@@ -23,8 +23,7 @@ case "$QEMU_RUN_MODE" in
         -m 256M \
         -serial stdio \
         -display none \
-        -net user,hostfwd=::8181-:22 \
-        -net nic \
+        -nic user,hostfwd=::8181-:22,model=virtio-net-pci \
         -drive format=raw,file=$IMG_PATH
       ;;
 
@@ -38,8 +37,7 @@ case "$QEMU_RUN_MODE" in
         -display none \
         -kernel $KERNEL_PATH \
         -initrd $INITRD_PATH \
-        -net user,hostfwd=::8181-:22 \
-        -net nic \
+        -nic user,hostfwd=::8181-:22,model=virtio-net-pci \
         -append "console=$QEMU_CONSOLE quiet loglevel=3"
       ;;
 
@@ -55,8 +53,7 @@ case "$QEMU_RUN_MODE" in
         -display none \
         -kernel $KERNEL_PATH \
         -initrd $INITRD_PATH \
-        -net user,hostfwd=::8181-:22 \
-        -net nic \
+        -nic user,hostfwd=::8181-:22,model=virtio-net-pci \
         -append "console=$QEMU_CONSOLE quiet loglevel=3"
       ;;
 

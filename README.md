@@ -130,27 +130,41 @@ To specify an alternative config, you can place a configuration file in
 
 The available ones in the repo for `x86_64` are:
 * `defconfig`: `clangmake defconfig`
-* `allnoconfig`: `clangmake allnoconfig`
-* `minconfig` (compressed kernel <2M): allnoconfig + the following:
+* `allnoconfig`: `clangmake allnoconfig` (note: simplelinux init will fail)
+* `minconfig` (compressed kernel <3MiB): `minconfig` + the following +
+  `clangmake kvm_guest.config`
     ```
         -> General setup
+            System V IPC
             Initial RAM filesystem and RAM disk (initramfs/initrd) support
               Only gzip compression
             Configure standard kernel features
-              Deselect debug symbols
+              Deselect "Load all symbols for debugging"
         -> Executable file formats
             Kernel support for ELF binaries
             Kernel support for scripts starting with #!
             Disable core dump support
+        -> Networking support
+          -> Networking options
+            Packet socket
+            Unix domain sockets
+            TCP/IP networking
         -> Device Drivers
+          -> Generic driver options
+            Maintain a devtmpfs filesystem
           -> Character devices
-            8250/16550 and compatible serial support
-            Console on 8250/16550 and compatible serial port
+            -> Serial drivers
+              8250/16550 and compatible serial support
+              Console on 8250/16550 and compatible serial port
+        -> File systems
+          -> Pseudo filesystems
+            Tmpfs virtual memory file system support
     ```
-* `minconfig_kvm` (compressed kernel <3M): `minconfig` +
-  `clangmake kvm_guest.config`
 
 `clangmake` is the `make` wrapper generated in `kernel/build.sh`.
+
+`minconfig` boots in QEMU in <0.6s, the kernel and initramfs weigh in at <4MiB,
+and the system uses ~8MiB of memory after startup.
 
 ### Boot image
 
@@ -176,7 +190,6 @@ available (let me know if you can test this; the image is UEFI compatible).
 ## Some todos
 
 * Consider init/supervisor systems (runit or OpenRC)
-* Add cron
 * Add a (encrypted) disk
 * Run on cloud
 * Run on real hardware
