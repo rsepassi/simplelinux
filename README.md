@@ -10,12 +10,12 @@ ARCH=x86_64 ./airlock/build.sh
 
 Supports cross-compiling to `{x86, x86_64, riscv64, arm, arm64}`.
 
-Build outputs available in `sources/build/$ARCH`:
-* `kernel`
-* `initramfs.cpio.gz`, `initramfs.tar.gz`
-* `simplelinux.img`
-* `busybox`
-* `dropbear`
+Build outputs will be available in `sources/build/$ARCH`:
+* `kernel`: a compiled Linux kernel
+* `initramfs.cpio.gz`, `initramfs.tar.gz`: an initramfs in 2 formats
+* `simplelinux.img`: a bootable image (BIOS+UEFI or UEFI)
+* `busybox`: statically-compiled BusyBox binary
+* `dropbear`: statically-compiled Dropbear SSH binary
 
 To run the built kernel and initramfs in QEMU:
 
@@ -36,7 +36,7 @@ Here are all the sources in the repo.
 ```
 # Build is the entrypoint and calls the indented scripts
 ./build.sh                 # entrypoint
-    ./env.sh               # configuration
+    ./config.sh            # configuration
     ./scripts/download.sh  # wget sources
     ./busybox/build.sh     # build busybox
     ./kernel/build.sh      # build Linux
@@ -71,7 +71,7 @@ Here are all the sources in the repo.
     xargs wc -l | sort -nr
 
   718 total
-  110 ./env.sh
+  110 ./config.sh
    89 ./boot/build.sh
    76 ./busybox/build.sh
    69 ./scripts/qemu.sh
@@ -94,11 +94,22 @@ Here are all the sources in the repo.
 
 ```
 ARCH=x86_64           \  # one of {x86, x86_64, arm, arm64, riscv64}
-KERNEL_CONFIG=default \  # one of the names in kernel/configs/$ARCH
+KERNEL_CONFIG=default \  # one of the names in kernel/configs/$ARCH, or default
 SSH_KEY="$mykey"      \  # a public key to put into /root/.ssh/authorized_keys
 DEBUG=0               \  # if 1, mounts ./ and drops into shell
 QEMU=0                \  # if 1, runs built artifacts in QEMU
 ./airlock/build.sh
+```
+
+```
+ARCH=x86_64           \  # one of {x86, x86_64, arm, arm64, riscv64}
+MODE=kernel           \  # one of {kernel, boot}
+./scripts/qemu.sh
+```
+
+```
+ARCH=x86_64           \  # one of {x86, x86_64, arm, arm64, riscv64}
+./scripts/podman.sh
 ```
 
 ### Init
@@ -182,14 +193,14 @@ The bootable image `simplelinux.img` has support for:
 * `riscv64`: UEFI
 
 Note that to run the images on QEMU with UEFI, paths to the UEFI firmware must
-be passed to QEMU. See `QEMU_BIOS_ARG` in `env.sh`.
+be passed to QEMU. See `QEMU_BIOS_ARG` in `config.sh`.
 
 All have been tested except for riscv64, for which UEFI firmware is not readily
 available (let me know if you can test this; the image is UEFI compatible).
 
 ## Some todos
 
-* Consider init/supervisor systems (runit or OpenRC)
+* Consider init/supervisor systems (runit, finit, OpenRC)
 * Add a (encrypted) disk
 * Run on cloud
 * Run on real hardware
