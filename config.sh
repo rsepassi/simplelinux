@@ -30,7 +30,7 @@ export INITRD_TAR_PATH=$BUILD_DIR/initramfs.tar.gz
 export IMG_PATH=$BUILD_DIR/simplelinux.img
 export KERNEL_PATH=$BUILD_DIR/kernel
 export BUSYBOX_PATH=$BUILD_DIR/busybox
-export SSH_PATH=$BUILD_DIR/dropbear
+export DROPBEAR_PATH=$BUILD_DIR/dropbearmulti
 
 # Limit parallelism. Hits segfaults if it is too high.
 n=$(nproc)

@@ -18,7 +18,8 @@ else
 fi
 
 cd $SLROOT/sources/dropbear
+make clean
 export CC="zig cc -static --target=$ZIG_TARGET -L $ldir -I $idir"
 ./configure --enable-static --host=$ZIG_TARGET
-make PROGRAMS="dropbear"
-llvm-objcopy -S dropbear $SSH_PATH
+make PROGRAMS="dropbear scp" MULTI=1
+llvm-objcopy -S dropbearmulti $DROPBEAR_PATH

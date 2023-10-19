@@ -1,0 +1,3 @@
+#!/bin/sh
+exec > >(logger -t ntpd) 2>&1
+exec ntpd -n
