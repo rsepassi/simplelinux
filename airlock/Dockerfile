@@ -20,6 +20,6 @@ ADD initrd /root/simplelinux/initrd
 ADD ssh /root/simplelinux/ssh
 ADD scripts /root/simplelinux/scripts
 ADD build.sh /root/simplelinux/
-ADD env.sh /root/simplelinux/
+ADD config.sh /root/simplelinux/
 
 WORKDIR /root/simplelinux

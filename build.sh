@@ -1,7 +1,7 @@
 #!/bin/sh
 set -e
 
-. ./env.sh
+. ./config.sh
 
 mkdir -p $BUILD_DIR
 rm -rf $BUILD_DIR/*

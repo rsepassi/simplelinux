@@ -1,4 +1,4 @@
-echo "Loading env.sh"
+echo "Loading config.sh"
 
 ARCH=${ARCH:-$(uname -m)}
 KERNEL_CONFIG=${KERNEL_CONFIG:-default}

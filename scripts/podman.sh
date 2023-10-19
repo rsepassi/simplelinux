@@ -3,7 +3,7 @@
 set -e
 
 ARCH=${ARCH:-$(uname -m)}
-SRC=sources/build/$ARCH/initramfs.tar.gz
+SRC=$PWD/sources/build/$ARCH/initramfs.tar.gz
 
 echo "Launching $SRC in Podman"
 
@@ -18,7 +18,7 @@ busybox --install -s /usr/bin
 export USER=root
 export HOME=/root
 
-dropbear -sgjk
+dropbear -sg -R
 
 exec /bin/sh
 EOF
