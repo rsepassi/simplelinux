@@ -4,7 +4,13 @@ set -e
 
 initlog() {
   local_msg=$1
-  echo "== <init> == [$(awk '{print $1}' /proc/uptime)] $local_msg"
+  if [ -e "/proc/uptime" ]
+  then
+    local_ms=$(awk '{print $1}' /proc/uptime)
+  else
+    local_ms="    "
+  fi
+  echo "== <init> == [$local_ms] $local_msg"
 }
 
 echo "== simplelinux init =="
@@ -13,33 +19,33 @@ echo "== simplelinux init =="
 
 dmesg -n 3
 
+initlog "pseudo-filesystems"
 mkdir -p /proc
-mount -t proc none /proc
+mount -t proc proc /proc
 mkdir -p /sys
-mount -t sysfs none /sys
+mount -t sysfs sysfs /sys
 mkdir -p /dev
-mount -t devtmpfs none /dev
+mount -t devtmpfs devtmpfs /dev
 mkdir -p /dev/shm
-mount -t tmpfs none /dev/shm
+mount -t tmpfs tmpfs /dev/shm
 mkdir -p /dev/pts
-mount -t devpts none /dev/pts
-initlog "Pseudo-filesystems setup"
+mount -t devpts devpts /dev/pts
 
+initlog "syslogd"
 syslogd -Dt -C500
-initlog "syslogd setup"
 
+initlog "ntpd"
 ntpd -p 0.pool.ntp.org -p 1.pool.ntp.org -p 2.pool.ntp.org
-initlog "ntpd setup"
 
+initlog "crond"
 crond
-initlog "crond setup"
 
+initlog "networking"
 hostname -F /etc/hostname
 udhcpc -i eth0 -S -s /etc/udhcp/simple.script >/dev/null 2>&1
-initlog "Networking setup"
 
+initlog "ssh"
 dropbear -sg -R
-initlog "SSH setup"
 
 initlog "simplelinux init complete"
 
