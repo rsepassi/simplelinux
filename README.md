@@ -71,37 +71,39 @@ Here are all the sources in the repo.
          grep -v "\.gitignore" | \
     xargs wc -l | sort -nr
 
-  768 total
-  110 ./config.sh
-   89 ./boot/build.sh
-   84 ./initrd/rootfs/etc/inittab
-   76 ./busybox/build.sh
-   52 ./kernel/build.sh
-   50 ./scripts/qemu.sh
-   41 ./initrd/build.sh
    40 ./airlock/build.sh
-   32 ./scripts/download.sh
-   31 ./scripts/podman.sh
-   30 ./build.sh
-   25 ./ssh/build.sh
    25 ./airlock/Dockerfile
-   24 ./initrd/rootfs/etc/init.d/pseudofs
+   89 ./boot/build.sh
    13 ./boot/limine.cfg
    11 ./boot/limine_uefi.cfg
-    8 ./initrd/rootfs/etc/init.d/welcome
-    5 ./initrd/rootfs/etc/ntp.conf
-    3 ./initrd/rootfs/etc/init.d/services/udhcpc
-    3 ./initrd/rootfs/etc/init.d/services/ntpd
-    3 ./initrd/rootfs/etc/init.d/services/dropbear
-    3 ./initrd/rootfs/etc/init.d/services/crond
-    2 ./initrd/rootfs/etc/init.d/services/syslogd
-    2 ./initrd/rootfs/etc/hosts
+   30 ./build.sh
+   76 ./busybox/build.sh
+  110 ./config.sh
+   41 ./initrd/build.sh
     2 ./initrd/rootfs/bin/fakelogin
-    1 ./initrd/rootfs/var/spool/cron/crontabs/root
-    1 ./initrd/rootfs/etc/shadow
-    1 ./initrd/rootfs/etc/passwd
-    1 ./initrd/rootfs/etc/hostname
     0 ./initrd/rootfs/etc/fstab
+    1 ./initrd/rootfs/etc/hostname
+    2 ./initrd/rootfs/etc/hosts
+   24 ./initrd/rootfs/etc/init.d/00_pseudofs.sh
+   17 ./initrd/rootfs/etc/inittab
+    5 ./initrd/rootfs/etc/ntp.conf
+    1 ./initrd/rootfs/etc/passwd
+   15 ./initrd/rootfs/etc/runit/1
+    2 ./initrd/rootfs/etc/runit/2
+    8 ./initrd/rootfs/etc/runit/3
+    1 ./initrd/rootfs/etc/shadow
+    4 ./initrd/rootfs/var/service/cron/run
+    3 ./initrd/rootfs/var/service/dhcp/run
+    3 ./initrd/rootfs/var/service/ntp/run
+    3 ./initrd/rootfs/var/service/ssh/run
+    2 ./initrd/rootfs/var/service/syslog/run
+    1 ./initrd/rootfs/var/spool/cron/crontabs/root
+   52 ./kernel/build.sh
+   32 ./scripts/download.sh
+   31 ./scripts/podman.sh
+   50 ./scripts/qemu.sh
+   25 ./ssh/build.sh
+  719 total
 ```
 
 ## Notes
@@ -130,27 +132,39 @@ ARCH=x86_64           \  # one of {x86, x86_64, arm, arm64, riscv64}
 
 ### Init
 
-`simplelinux` uses BusyBox init (for now), which is configured by
-`initrd/inittab`.
+`simplelinux` uses a combination of BusyBox init and BusyBox runit.
 
-It does the following:
+BusyBox init is the actual `init` program and is configured by `/etc/inittab`,
+which does the following:
+* Run `/etc/runit/1` to do all one-time setup tasks
+* Run `/etc/runit/2` as a service to start and manage all services
+* Run `/bin/sh` on the console
+* On shutdown, run `/etc/runit/3`
 
-* One-time
-  * Add busybox symlinks
-  * Quiet kernel logging
-  * Mount pseudo filesystems
-  * Set the hostname
-  * Show the welcome banner
-* Daemons
-  * syslogd: system logging, use `logread` to read and `logger` to log
-  * udhcpc: setup networking on eth0 and maintain a dhcp lease
-  * crond: run cron jobs (per-user crontabs in `/var/spool/cron/crontabs`)
-  * ntpd: keep time using ntp.org servers (servers listed in `/etc/ntp.conf`)
-  * dropbear: SSH server, creates a server key at
+`/etc/runit/1` does the following:
+
+* Adds BusyBox symlinks
+* Quiets kernel logging
+* Sets the hostname
+* Runs all scripts in `/etc/init.d`
+    * Mount pseudo filesystems
+* Shows the welcome banner
+
+`/etc/runit/2` starts and supervises the services in `/var/service`:
+  * syslog: system logging, use `logread` to read and `logger` to log
+  * dhcp: setup networking on eth0 and maintain a dhcp lease
+  * cron: run cron jobs (per-user crontabs in `/var/spool/cron/crontabs`)
+  * ntp: keep time using ntp.org servers (servers listed in `/etc/ntp.conf`)
+  * ssh: Dropbear SSH server, creates a server key at
     `/etc/dropbear/dropbear_ed25519_host_key` on first connection, authorized
     keys at `/root/.ssh/authorized_keys`.
 
-That's it.
+Query service status with `sv status`, e.g. `sv status dhcp`, or query all
+services with `sv status /var/service/*`.
+
+Manage services with `sv`.
+
+All logs go to `syslogd` tagged with the service name.
 
 ### Kernel configuration
 

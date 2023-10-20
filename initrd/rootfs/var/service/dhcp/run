@@ -1,3 +1,3 @@
 #!/bin/sh
-exec > >(logger -t udhcpc) 2>&1
+exec > >(logger -t dhcp) 2>&1
 exec udhcpc -f -i eth0 -s /etc/udhcp/simple.script

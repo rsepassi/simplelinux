@@ -1,0 +1,15 @@
+#!/bin/sh
+
+/bin/busybox --install -s /bin
+dmesg -n 3
+hostname -F /etc/hostname
+
+run-parts /etc/init.d
+
+echo "
+
+
+      ====== simplelinux ======
+
+
+"

@@ -1,0 +1,8 @@
+#!/bin/sh
+
+echo "simplelinux shutting down"
+
+sv exit /var/service/*
+
+swapoff -a
+umount -a -r

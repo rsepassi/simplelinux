@@ -1,84 +1,17 @@
-# /etc/inittab init(8) configuration for BusyBox
-#
-# Copyright (C) 1999-2004 by Erik Andersen <andersen@codepoet.org>
-#
-#
-# Note, BusyBox init doesn't support runlevels.  The runlevels field is
-# completely ignored by BusyBox init. If you want runlevels, use sysvinit.
-#
-#
-# Format for each entry: <id>:<runlevels>:<action>:<process>
-#
-# <id>: WARNING: This field has a non-traditional meaning for BusyBox init!
-#
-#	The id field is used by BusyBox init to specify the controlling tty for
-#	the specified process to run on.  The contents of this field are
-#	appended to "/dev/" and used as-is.  There is no need for this field to
-#	be unique, although if it isn't you may have strange results.  If this
-#	field is left blank, then the init's stdin/out will be used.
-#
-# <runlevels>: The runlevels field is completely ignored.
-#
-# <action>: Valid actions include: sysinit, wait, once, respawn, askfirst,
-#                                  shutdown, restart and ctrlaltdel.
-#
-#	sysinit actions are started first, and init waits for them to complete.
-#	wait actions are started next, and init waits for them to complete.
-#	once actions are started next (and not waited for).
-#
-#	askfirst and respawn are started next.
-#	For askfirst, before running the specified process, init displays
-#	the line "Please press Enter to activate this console"
-#	and then waits for the user to press enter before starting it.
-#
-#	shutdown actions are run on halt/reboot/poweroff, or on SIGQUIT.
-#	Then the machine is halted/rebooted/powered off, or for SIGQUIT,
-#	restart action is exec'ed (init process is replaced by that process).
-#	If no restart action specified, SIGQUIT has no effect.
-#
-#	ctrlaltdel actions are run when SIGINT is received
-#	(this might be initiated by Ctrl-Alt-Del key combination).
-#	After they complete, normal processing of askfirst / respawn resumes.
-#
-#	Note: unrecognized actions (like initdefault) will cause init to emit
-#	an error message, and then go along with its business.
-#
-# <process>: Specifies the process to be executed and it's command line.
-#
-# Note: BusyBox init works just fine without an inittab. If no inittab is
-# found, it has the following default behavior:
-#	::sysinit:/etc/init.d/rcS
-#	::askfirst:/bin/sh
-#	::ctrlaltdel:/sbin/reboot
-#	::shutdown:/sbin/swapoff -a
-#	::shutdown:/bin/umount -a -r
-#	::restart:/sbin/init
-#	tty2::askfirst:/bin/sh
-#	tty3::askfirst:/bin/sh
-#	tty4::askfirst:/bin/sh
+# See https://github.com/brgl/busybox/blob/master/examples/inittab
 
 # Init
-::sysinit:/bin/busybox --install -s /bin
-::sysinit:dmesg -n 3
-::sysinit:/etc/init.d/pseudofs
-::sysinit:hostname -F /etc/hostname
-::sysinit:/etc/init.d/welcome
+::sysinit:/etc/runit/1
 
-# Daemons
-::respawn:/etc/init.d/services/syslogd
-::respawn:/etc/init.d/services/udhcpc
-::respawn:/etc/init.d/services/crond
-::respawn:/etc/init.d/services/ntpd
-::respawn:/etc/init.d/services/dropbear
+# Services
+::respawn:/etc/runit/2
 
 # Console
 # Use fakelogin if you only want to allow SSH login
 #::askfirst:/bin/fakelogin
 ::askfirst:-/bin/sh
 
-# Shudown/Reboot
-::shutdown:echo simplelinux shutting down
-::shutdown:/bin/swapoff -a
-::shutdown:/bin/umount -a -r
+# Shutdown
+::shutdown:/etc/runit/3
 ::restart:/bin/init
 ::ctrlaltdel:/bin/reboot

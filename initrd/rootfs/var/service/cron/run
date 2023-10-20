@@ -1,0 +1,4 @@
+#!/bin/sh
+exec > >(logger -t cron) 2>&1
+sv start syslog || exit 1
+exec crond -f >/dev/null
