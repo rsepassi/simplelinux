@@ -23,7 +23,7 @@ case "$MODE" in
         -m 256M \
         -serial stdio \
         -display none \
-        -nic user,hostfwd=::8181-:22,model=virtio-net-pci \
+        -nic user,hostfwd=::8181-:22 \
         -drive format=raw,file=$IMG_PATH
       ;;
 
@@ -37,7 +37,7 @@ case "$MODE" in
         -display none \
         -kernel $KERNEL_PATH \
         -initrd $INITRD_PATH \
-        -nic user,hostfwd=::8181-:22,model=virtio-net-pci \
+        -nic user,hostfwd=::8181-:22 \
         -append "console=$QEMU_CONSOLE quiet loglevel=3"
       ;;
 
