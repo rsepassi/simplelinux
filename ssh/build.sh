@@ -18,7 +18,7 @@ else
 fi
 
 cd $SLROOT/sources/dropbear
-make clean
+make clean || echo "clean"
 export CC="zig cc -static --target=$ZIG_TARGET -L $ldir -I $idir"
 ./configure --enable-static --host=$ZIG_TARGET
 make PROGRAMS="dropbear scp" MULTI=1
