@@ -16,6 +16,7 @@ Build outputs will be available in `sources/build/$ARCH`:
 * `simplelinux.img`: a bootable image (BIOS+UEFI or UEFI)
 * `busybox`: statically-compiled BusyBox binary
 * `dropbearmulti`: statically-compiled Dropbear SSH multi-binary
+* `zig`: Zig install directory. Note that this is not included in initramfs.
 
 To run the built kernel and initramfs in QEMU:
 
@@ -232,3 +233,35 @@ be passed to QEMU. See `QEMU_BIOS_ARG` in `config.sh`.
 
 All have been tested except for riscv64, for which UEFI firmware is not readily
 available (let me know if you can test this; the image is UEFI compatible).
+
+### Self-hosting
+
+Currently, building simplelinux requires Alpine Linux and some of its packages.
+It would be nice to be able to build simplelinux from within simplelinux. That
+would require packaging the fetched dependencies in the Dockerfile:
+
+```
+# compiler toolchain
+make
+llvm16
+clang16
+musl-dev
+lld
+zig
+
+# for linux
+flex
+bison
+elfutils-dev
+openssl-dev
+perl
+rsync
+ncurses-dev
+
+# for limine
+nasm
+
+# for boot image creation
+mtools
+parted
+```

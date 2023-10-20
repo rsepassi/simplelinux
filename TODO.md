@@ -2,8 +2,8 @@
 
 Various ideas for things to do
 
-* Consider init/supervisor systems (runit, finit, OpenRC)
-* Automatic kernel/security upgrades
+* Zig build
+* Zig packages
 * Add disk
   * Disk encryption (LUKS, else)
   * ZFS
@@ -13,3 +13,8 @@ Various ideas for things to do
   * Server
   * USB stick
   * SBC
+* Packages
+  * Zig
+  * wget/curl/HTTPS with certificate checks
+  * HTTPS server
+* Self-host
