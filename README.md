@@ -229,7 +229,7 @@ The bootable image `simplelinux.img` has support for:
 * `riscv64`: UEFI
 
 Note that to run the images on QEMU with UEFI, paths to the UEFI firmware must
-be passed to QEMU. See `QEMU_BIOS_ARG` in `config.sh`.
+be passed to QEMU. See `QEMU_BIOS_ARG` in `scripts/qemu.sh`.
 
 All have been tested except for riscv64, for which UEFI firmware is not readily
 available (let me know if you can test this; the image is UEFI compatible).

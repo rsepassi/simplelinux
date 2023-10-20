@@ -49,64 +49,42 @@ case "$ARCH" in
     x86)
         export KERNEL_ARCH="i386"
         export KERNEL_SRC_PATH=$SLROOT/sources/linux/arch/$KERNEL_ARCH/boot/bzImage
-        export QEMU_ARCH="i386"
-        export QEMU_ARGS=""
-        export QEMU_BIOS_ARG="-bios /usr/share/qemu-efi-i386/OVMF-pure-efi.fd"
-        export QEMU_CONSOLE="ttyS0"
         export ZIG_TARGET="x86-linux-musl"
         export ZIG_URL_ARCH="x86"
         export LIMINE_ARCH="ia32"
         export LIMINE_CFG="limine.cfg"
-        export EFI_BIN="BOOTIA32.EFI"
+        export LIMINE_EFI_BIN="BOOTIA32.EFI"
         ;;
     x86_64)
         export KERNEL_ARCH="x86_64"
         export KERNEL_SRC_PATH=$SLROOT/sources/linux/arch/$KERNEL_ARCH/boot/bzImage
-        export QEMU_ARCH="x86_64"
-        export QEMU_ARGS=""
-        export QEMU_BIOS_ARG="-bios /usr/share/ovmf/OVMF.fd"
-        export QEMU_CONSOLE="ttyS0"
         export ZIG_TARGET="x86_64-linux-musl"
         export ZIG_URL_ARCH="x86_64"
         export LIMINE_ARCH="x86-64"
         export LIMINE_CFG="limine.cfg"
-        export EFI_BIN="BOOTX64.EFI"
+        export LIMINE_EFI_BIN="BOOTX64.EFI"
         ;;
     arm64)
         export KERNEL_ARCH="arm64"
         export KERNEL_SRC_PATH=$SLROOT/sources/linux/arch/$KERNEL_ARCH/boot/Image
-        export QEMU_ARCH="aarch64"
-        export QEMU_ARGS="-machine virt -cpu cortex-a53 -bios /usr/share/qemu-efi-aarch64/QEMU_EFI.fd"
-        export QEMU_BIOS_ARG=""  # already in QEMU_ARGS
-        export QEMU_CONSOLE="ttyS0"
         export ZIG_TARGET="aarch64-linux-musl"
         export ZIG_URL_ARCH="aarch64"
         export LIMINE_ARCH="aarch64"
         export LIMINE_CFG="limine_uefi.cfg"
-        export EFI_BIN="BOOTAA64.EFI"
+        export LIMINE_EFI_BIN="BOOTAA64.EFI"
         ;;
     riscv64)
         export KERNEL_ARCH="riscv"
         export KERNEL_SRC_PATH=$SLROOT/sources/linux/arch/$KERNEL_ARCH/boot/Image
-        export QEMU_ARCH="riscv64"
-        export QEMU_ARGS="-machine sifive_u"
-        # TODO: Add UEFI firmware
-        # https://github.com/riscv-admin/riscv-uefi-edk2-docs
-        export QEMU_BIOS_ARG=""
-        export QEMU_CONSOLE="ttySIF0"
         export ZIG_TARGET="riscv64-linux-musl"
         export ZIG_URL_ARCH="riscv64"
         export LIMINE_ARCH="riscv64"
         export LIMINE_CFG="limine_uefi.cfg"
-        export EFI_BIN="BOOTRISCV64.EFI"
+        export LIMINE_EFI_BIN="BOOTRISCV64.EFI"
         ;;
     arm)
         export KERNEL_ARCH="arm"
         export KERNEL_SRC_PATH=$SLROOT/sources/linux/arch/$KERNEL_ARCH/boot/zImage
-        export QEMU_ARCH="arm"
-        export QEMU_CONSOLE="ttyAMA0"
-        export QEMU_ARGS="-machine virt -cpu cortex-a15 -bios /usr/share/AAVMF/AAVMF32_CODE.fd"
-        export QEMU_BIOS_ARG=""  # already in QEMU_ARGS
         export LIMINE_CFG="limine_uefi.cfg"
         export ZIG_TARGET="arm-linux-musleabihf"
         export ZIG_URL_ARCH="armv7a"

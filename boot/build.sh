@@ -10,7 +10,7 @@ BUILD=$LIMINE_SRCDIR/build
 LIMINE=$BUILD/bin/limine
 LIMINE_CFG_PATH=$SLROOT/boot/$LIMINE_CFG
 BIOS=$BUILD/share/limine/limine-bios.sys
-EFI=$BUILD/share/limine/$EFI_BIN
+EFI=$BUILD/share/limine/$LIMINE_EFI_BIN
 FAT=$BUILD/boot.img.fat
 STARTUP_NSH=$BUILD/startup.nsh
 
@@ -65,7 +65,7 @@ EOF
 dd if=/dev/zero of=$FAT bs=$sector_size count=$fat_sectors
 mformat -i $FAT ::
 mmd -i $FAT ::/boot ::/EFI ::/EFI/BOOT
-mcopy -i $FAT $EFI ::/EFI/BOOT/$EFI_BIN
+mcopy -i $FAT $EFI ::/EFI/BOOT/$LIMINE_EFI_BIN
 mcopy -i $FAT $STARTUP_NSH ::/EFI/BOOT/startup.nsh
 mcopy -i $FAT $BIOS ::/boot/limine-bios.sys
 mcopy -i $FAT $LIMINE_CFG_PATH ::/boot/limine.cfg
