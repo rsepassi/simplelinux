@@ -64,8 +64,7 @@ EOF
 cd $SLROOT/sources/busybox
 setup_toolchain
 make clean
-make defconfig HOSTCC="clang"
-sed -i '/# CONFIG_STATIC is not set/c\CONFIG_STATIC=y' .config
+cp $SLROOT/busybox/configs/default .config
 
 CROSS_COMPILE="$CROSS_PREFIX-" make "-j$BUILD_PARALLELISM" busybox_unstripped
 llvm-objcopy --strip-all busybox_unstripped busybox
