@@ -12,17 +12,6 @@ rm -rf $DST
 cp -r $SLROOT/initrd/rootfs $DST
 cd $DST
 
-# Setup some directories
-mkdir -p \
-  var/service \
-  usr/sbin \
-  sbin \
-  tmp \
-  root/.ssh \
-  etc/udhcp \
-  etc/ssl/certs \
-  etc/dropbear
-
 # Copy in busybox
 cp $BUSYBOX_PATH bin/
 
@@ -34,9 +23,11 @@ cp $DROPBEAR_PATH usr/bin/
 # ln -s /root/zig/zig usr/bin/zig
 
 # Networking
+mkdir -p etc/udhcp
 cp $SRC/sources/busybox/examples/udhcp/simple.script etc/udhcp/
 
 # SSH
+mkdir -p root/.ssh
 echo "$SSH_KEY" > root/.ssh/authorized_keys
 
 # Package

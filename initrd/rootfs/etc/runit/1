@@ -1,6 +1,7 @@
 #!/bin/sh
 # runit/1 runs all one-time startup tasks
 
+/bin/busybox mkdir usr/sbin sbin tmp
 /bin/busybox --install
 dmesg -n 3
 hostname -F /etc/hostname

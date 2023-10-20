@@ -4,6 +4,7 @@
 exec > >(logger -t runsvdir) 2>&1
 
 # Link in the startup services
+mkdir -p var/service
 ln -sf /etc/service/syslog /var/service/
 ln -sf /etc/service/cron /var/service/
 ln -sf /etc/service/dhcp /var/service/
