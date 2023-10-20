@@ -2,19 +2,13 @@
 
 set -e
 
-mkdir -p /proc
-mount -t proc proc /proc
+# mount filesystems in /etc/fstab
+mkdir -p /proc /sys /dev
+mount -av
 
-mkdir -p /sys
-mount -t sysfs sysfs /sys
-
-mkdir -p /dev
-mount -t devtmpfs devtmpfs /dev
-
-mkdir -p /dev/shm
+# mount these afterwards so that we can create /dev subdirectories
+mkdir /dev/shm /dev/pts
 mount -t tmpfs tmpfs /dev/shm
-
-mkdir -p /dev/pts
 mount -t devpts devpts /dev/pts
 
 ln -s /dev/rtc0 /dev/rtc

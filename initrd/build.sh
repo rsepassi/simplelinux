@@ -29,7 +29,6 @@ cp $DROPBEAR_PATH usr/bin/
 
 # Networking
 cp $SRC/sources/busybox/examples/udhcp/simple.script etc/udhcp/
-cp /etc/ssl/certs/ca-certificates.crt etc/ssl/certs/
 
 # SSH
 echo "$SSH_KEY" > root/.ssh/authorized_keys

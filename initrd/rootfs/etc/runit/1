@@ -1,4 +1,5 @@
 #!/bin/sh
+# runit/1 runs all one-time startup tasks
 
 /bin/busybox --install -s /bin
 dmesg -n 3

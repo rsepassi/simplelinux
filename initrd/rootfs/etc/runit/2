@@ -1,10 +1,14 @@
 #!/bin/sh
+# runit/2 runs all long-running services
+
 exec > >(logger -t runsvdir) 2>&1
 
-ln -s /etc/service/syslog /var/service/
-ln -s /etc/service/cron /var/service/
-ln -s /etc/service/dhcp /var/service/
-ln -s /etc/service/ntp /var/service/
-ln -s /etc/service/ssh /var/service/
+# Link in the startup services
+ln -sf /etc/service/syslog /var/service/
+ln -sf /etc/service/cron /var/service/
+ln -sf /etc/service/dhcp /var/service/
+ln -sf /etc/service/ntp /var/service/
+ln -sf /etc/service/ssh /var/service/
 
+# Continuously startup and supervise everything in /var/service
 exec runsvdir /var/service

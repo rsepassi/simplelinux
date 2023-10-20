@@ -1,3 +1,4 @@
 #!/bin/sh
-#exec > >(logger -t ssh) 2>&1
+exec > >(logger -t ssh) 2>&1
+sv start dhcp || exit 1
 exec dropbear -F -sg -R

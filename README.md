@@ -69,7 +69,7 @@ Here are all the sources in the repo.
          grep -v "LICENSE" | \
          grep -v "TODO" | \
          grep -v "\.gitignore" | \
-    xargs wc -l | sort -nr
+    sort | xargs wc -l
 
    40 ./airlock/build.sh
    25 ./airlock/Dockerfile
@@ -81,7 +81,7 @@ Here are all the sources in the repo.
   110 ./config.sh
    41 ./initrd/build.sh
     2 ./initrd/rootfs/bin/fakelogin
-    0 ./initrd/rootfs/etc/fstab
+    4 ./initrd/rootfs/etc/fstab
     1 ./initrd/rootfs/etc/hostname
     2 ./initrd/rootfs/etc/hosts
    24 ./initrd/rootfs/etc/init.d/00_pseudofs.sh

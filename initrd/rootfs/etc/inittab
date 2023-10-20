@@ -7,9 +7,9 @@
 ::respawn:/etc/runit/2
 
 # Console
-# Use fakelogin if you only want to allow SSH login
-#::askfirst:/bin/fakelogin
 ::askfirst:-/bin/sh
+# Replace with this if you only want to allow SSH login
+#::askfirst:echo "Login over SSH"
 
 # Shutdown
 ::shutdown:/etc/runit/3

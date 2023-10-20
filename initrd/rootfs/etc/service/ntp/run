@@ -1,3 +1,4 @@
 #!/bin/sh
 exec > >(logger -t ntp) 2>&1
+sv start dhcp || exit 1
 exec ntpd -n
