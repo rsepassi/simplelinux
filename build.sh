@@ -9,6 +9,9 @@ rm -rf $BUILD_DIR/*
 # sources
 ./scripts/download.sh
 
+# zig
+cp -r ./sources/zig $BUILD_DIR/zig
+
 # busybox
 ./busybox/build.sh
 

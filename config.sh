@@ -9,6 +9,8 @@ export LINUX_VERSION="6.5.7"
 export LIMINE_VERSION="5.20231006.0"
 export DROPBEAR_VERSION="2022.83"
 export ZLIB_VERSION="12922560"
+export ZIG_VERSION="0.11.0"
+
 export SLROOT=$PWD
 export BUILD_DIR=$SLROOT/sources/build/$ARCH
 
@@ -52,6 +54,7 @@ case "$ARCH" in
         export QEMU_BIOS_ARG="-bios /usr/share/qemu-efi-i386/OVMF-pure-efi.fd"
         export QEMU_CONSOLE="ttyS0"
         export ZIG_TARGET="x86-linux-musl"
+        export ZIG_URL_ARCH="x86"
         export LIMINE_ARCH="ia32"
         export LIMINE_CFG="limine.cfg"
         export EFI_BIN="BOOTIA32.EFI"
@@ -64,6 +67,7 @@ case "$ARCH" in
         export QEMU_BIOS_ARG="-bios /usr/share/ovmf/OVMF.fd"
         export QEMU_CONSOLE="ttyS0"
         export ZIG_TARGET="x86_64-linux-musl"
+        export ZIG_URL_ARCH="x86_64"
         export LIMINE_ARCH="x86-64"
         export LIMINE_CFG="limine.cfg"
         export EFI_BIN="BOOTX64.EFI"
@@ -76,6 +80,7 @@ case "$ARCH" in
         export QEMU_BIOS_ARG=""  # already in QEMU_ARGS
         export QEMU_CONSOLE="ttyS0"
         export ZIG_TARGET="aarch64-linux-musl"
+        export ZIG_URL_ARCH="aarch64"
         export LIMINE_ARCH="aarch64"
         export LIMINE_CFG="limine_uefi.cfg"
         export EFI_BIN="BOOTAA64.EFI"
@@ -90,6 +95,7 @@ case "$ARCH" in
         export QEMU_BIOS_ARG=""
         export QEMU_CONSOLE="ttySIF0"
         export ZIG_TARGET="riscv64-linux-musl"
+        export ZIG_URL_ARCH="riscv64"
         export LIMINE_ARCH="riscv64"
         export LIMINE_CFG="limine_uefi.cfg"
         export EFI_BIN="BOOTRISCV64.EFI"
@@ -103,6 +109,7 @@ case "$ARCH" in
         export QEMU_BIOS_ARG=""  # already in QEMU_ARGS
         export LIMINE_CFG="limine_uefi.cfg"
         export ZIG_TARGET="arm-linux-musleabihf"
+        export ZIG_URL_ARCH="armv7a"
         ;;
     *)
         echo "Unrecognized ARCH $ARCH"
