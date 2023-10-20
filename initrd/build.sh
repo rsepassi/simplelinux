@@ -15,6 +15,8 @@ cd $DST
 # Setup some directories
 mkdir -p \
   var/service \
+  usr/sbin \
+  sbin \
   tmp \
   root/.ssh \
   etc/udhcp \
@@ -26,6 +28,10 @@ cp $BUSYBOX_PATH bin/
 
 # Copy in dropbear
 cp $DROPBEAR_PATH usr/bin/
+
+# Copy in Zig
+# cp -r $BUILD_DIR/zig root/
+# ln -s /root/zig/zig usr/bin/zig
 
 # Networking
 cp $SRC/sources/busybox/examples/udhcp/simple.script etc/udhcp/

@@ -13,5 +13,5 @@
 
 # Shutdown
 ::shutdown:/etc/runit/3
-::restart:/bin/init
-::ctrlaltdel:/bin/reboot
+::restart:/sbin/init
+::ctrlaltdel:/sbin/reboot
