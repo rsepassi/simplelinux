@@ -91,13 +91,13 @@ Here are all the sources in the repo.
    15 ./initrd/rootfs/etc/runit/1
     2 ./initrd/rootfs/etc/runit/2
     8 ./initrd/rootfs/etc/runit/3
+    4 ./initrd/rootfs/etc/service/cron/run
+    3 ./initrd/rootfs/etc/service/dhcp/run
+    3 ./initrd/rootfs/etc/service/ntp/run
+    3 ./initrd/rootfs/etc/service/ssh/run
+    2 ./initrd/rootfs/etc/service/syslog/run
+    1 ./initrd/rootfs/etc/spool/cron/crontabs/root
     1 ./initrd/rootfs/etc/shadow
-    4 ./initrd/rootfs/var/service/cron/run
-    3 ./initrd/rootfs/var/service/dhcp/run
-    3 ./initrd/rootfs/var/service/ntp/run
-    3 ./initrd/rootfs/var/service/ssh/run
-    2 ./initrd/rootfs/var/service/syslog/run
-    1 ./initrd/rootfs/var/spool/cron/crontabs/root
    52 ./kernel/build.sh
    32 ./scripts/download.sh
    31 ./scripts/podman.sh
@@ -150,7 +150,8 @@ which does the following:
     * Mount pseudo filesystems
 * Shows the welcome banner
 
-`/etc/runit/2` starts and supervises the services in `/var/service`:
+`/etc/runit/2` links the service definitions in `/etc/service` to `/var/service`
+and starts them:
   * syslog: system logging, use `logread` to read and `logger` to log
   * dhcp: setup networking on eth0 and maintain a dhcp lease
   * cron: run cron jobs (per-user crontabs in `/var/spool/cron/crontabs`)
@@ -162,7 +163,8 @@ which does the following:
 Query service status with `sv status`, e.g. `sv status dhcp`, or query all
 services with `sv status /var/service/*`.
 
-Manage services with `sv`.
+Manage services with `sv`. You can also stop a service by removing the symlink
+in `/var/service` and start one by adding a symlink there.
 
 All logs go to `syslogd` tagged with the service name.
 

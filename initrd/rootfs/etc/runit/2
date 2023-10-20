@@ -1,2 +1,10 @@
 #!/bin/sh
+exec > >(logger -t runsvdir) 2>&1
+
+ln -s /etc/service/syslog /var/service/
+ln -s /etc/service/cron /var/service/
+ln -s /etc/service/dhcp /var/service/
+ln -s /etc/service/ntp /var/service/
+ln -s /etc/service/ssh /var/service/
+
 exec runsvdir /var/service

@@ -14,6 +14,7 @@ cd $DST
 
 # Setup some directories
 mkdir -p \
+  var/service \
   tmp \
   root/.ssh \
   etc/udhcp \
