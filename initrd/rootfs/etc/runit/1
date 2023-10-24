@@ -8,6 +8,8 @@ hostname -F /etc/hostname
 
 run-parts /etc/init.d
 
+boot=$(cat /proc/uptime | cut -d' ' -f1)
+
 echo "
 
 
@@ -15,3 +17,4 @@ echo "
 
 
 "
+echo "booted in $boot seconds"
