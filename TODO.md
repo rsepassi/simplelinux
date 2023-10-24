@@ -2,6 +2,11 @@
 
 Various ideas for things to do
 
+* Non-root user
+* Static portable QEMU
+* bwrap
+* earlyoom
+* Easy way to fetch Docker image rootfs
 * Zig build
 * Zig packages
 * Add disk
