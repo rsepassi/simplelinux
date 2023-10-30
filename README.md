@@ -230,5 +230,4 @@ Please press Enter to activate this console.
 ```
 
 ## TODO
-* Non-root user
 * wget HTTPS

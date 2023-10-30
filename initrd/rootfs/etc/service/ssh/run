@@ -1,2 +1,6 @@
 #!/bin/sh
-exec dropbear -F -sg -R
+# -F: foreground
+# -R: create hostkeys as required
+# -s: disable password login
+# -g: disable password login for root
+exec dropbear -FRsg

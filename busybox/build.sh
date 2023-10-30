@@ -67,7 +67,7 @@ make clean
 cp $SLROOT/busybox/configs/default .config
 
 CROSS_COMPILE="$CROSS_PREFIX-" make "-j$BUILD_PARALLELISM" busybox_unstripped
-llvm-objcopy --strip-all busybox_unstripped busybox
+zig objcopy -S busybox_unstripped busybox
 chmod +x busybox
 
 cp busybox $BUSYBOX_PATH

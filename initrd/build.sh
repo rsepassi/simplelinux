@@ -14,7 +14,8 @@ cp -r $SLROOT/initrd/rootfs $DST
 cd $DST
 
 # Create some directories
-mkdir -p usr/sbin sbin tmp etc/dropbear var/service root/.ssh etc/udhcp home
+mkdir -p usr/sbin sbin tmp etc/dropbear var/service etc/udhcp home/user/.ssh \
+         /root/.ssh
 
 # Copy in busybox
 cp $BUSYBOX_PATH bin/

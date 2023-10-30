@@ -14,6 +14,7 @@ fail() {
 
 # Setup output and download cache directories
 output_dir=$PWD/build/out/$ARCH
+log=$output_dir/build_log.txt
 cache_dir=$HOME/.cache/simplelinux
 apk_cache_dir=$cache_dir/apkcache
 [ "${DEBUG}" -eq 1 ] || rm -rf $output_dir
@@ -27,14 +28,15 @@ then
   echo "DEBUG enabled. Mounting current directory and dropping into shell"
   ARGS="-v $PWD:/root/simplelinux:rw"
   CMD="/bin/sh"
+  REDIR=""
 else
   ARGS=""
   CMD="/root/simplelinux/scripts/build.sh"
   rm -rf $output_dir
+  REDIR="> $log"
 fi
 mkdir -p $output_dir
 
-log=$output_dir/build_log.txt
 echo
 echo "simplelinux build"
 echo
@@ -42,7 +44,7 @@ echo "start: $(date)"
 echo "log: $log"
 
 # Build our Alpine container
-podman build -f scripts/Dockerfile -t simplelinux-build . > $log
+podman build -f scripts/Dockerfile -t simplelinux-build . $REDIR
 CODE=$?
 if [ $CODE -ne 0 ]; then
   fail $CODE
@@ -58,7 +60,7 @@ podman run -it \
   -v $apk_cache_dir:/etc/apk/cache:rw \
   $ARGS \
   simplelinux-build \
-  $CMD > $log
+  $CMD $REDIR
 CODE=$?
 if [ $CODE -ne 0 ]; then
   fail $CODE
