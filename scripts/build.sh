@@ -1,16 +1,17 @@
 #!/bin/sh
+# Build simplelinux
+
 set -e
 
-. ./config.sh
+. ./scripts/config.sh
 
 mkdir -p $BUILD_DIR
-rm -rf $BUILD_DIR/*
+
+# apk build dependencies
+./scripts/getdeps.sh
 
 # sources
-./scripts/download.sh
-
-# zig
-cp -r ./sources/zig $BUILD_DIR/zig
+./scripts/getsrcs.sh
 
 # busybox
 ./busybox/build.sh
@@ -19,7 +20,7 @@ cp -r ./sources/zig $BUILD_DIR/zig
 ./ssh/build.sh
 
 # linux
-./kernel/build.sh
+./linux/build.sh
 
 # ramfs
 ./initrd/build.sh

@@ -4,6 +4,14 @@ set -e
 
 ARCH=${ARCH:-$(uname -m)}
 MODE="${MODE:-kernel}"
+PORT="${PORT:-8181}"
+
+if [ -n "$DATA_DISK" ]
+then
+  DISK_ARG="-drive file=$DATA_DISK,media=disk,if=virtio"
+else
+  DISK_ARG=""
+fi
 
 INITRD_PATH=$PWD/sources/build/$ARCH/initramfs.cpio.gz
 KERNEL_PATH=$PWD/sources/build/$ARCH/kernel
@@ -69,7 +77,8 @@ case "$MODE" in
         -m 2G \
         -serial stdio \
         -display none \
-        -nic user,hostfwd=::8181-:22,model=$QEMU_NIC \
+        -nic user,hostfwd=::$PORT-:22,model=$QEMU_NIC \
+        $DISK_ARG \
         -drive format=raw,file=$IMG_PATH
       ;;
 
@@ -83,7 +92,8 @@ case "$MODE" in
         -display none \
         -kernel $KERNEL_PATH \
         -initrd $INITRD_PATH \
-        -nic user,hostfwd=::8181-:22,model=$QEMU_NIC \
+        $DISK_ARG \
+        -nic user,hostfwd=::$PORT-:22,model=$QEMU_NIC \
         -append "console=$QEMU_CONSOLE quiet loglevel=3"
       ;;
 

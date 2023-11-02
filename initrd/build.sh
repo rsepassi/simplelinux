@@ -1,4 +1,5 @@
 #!/bin/sh
+# Build the root filesystem archives
 set -e
 
 TITLE="Building initrd archives"
@@ -12,22 +13,19 @@ rm -rf $DST
 cp -r $SLROOT/initrd/rootfs $DST
 cd $DST
 
+# Create some directories
+mkdir -p usr/sbin sbin tmp etc/dropbear var/service root/.ssh etc/udhcp home
+
 # Copy in busybox
 cp $BUSYBOX_PATH bin/
 
 # Copy in dropbear
 cp $DROPBEAR_PATH usr/bin/
 
-# Copy in Zig
-# cp -r $BUILD_DIR/zig root/
-# ln -s /root/zig/zig usr/bin/zig
-
 # Networking
-mkdir -p etc/udhcp
 cp $SRC/sources/busybox/examples/udhcp/simple.script etc/udhcp/
 
 # SSH
-mkdir -p root/.ssh
 echo "$SSH_KEY" > root/.ssh/authorized_keys
 
 # Package

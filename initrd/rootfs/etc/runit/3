@@ -1,5 +1,5 @@
 #!/bin/sh
-# runit/3 runs all shutdown tasks
+# Shutdown tasks
 
 echo "simplelinux shutting down"
 

@@ -1,4 +1,6 @@
 #!/bin/sh
+# Download all simplelinux sources
+
 set -e
 
 TITLE="Downloading and extracting sources"
@@ -28,7 +30,6 @@ dl limine "limine-$LIMINE_VERSION.tar.gz" "https://github.com/limine-bootloader/
 dl busybox "busybox-$BUSYBOX_VERSION.tar.bz2" "https://www.busybox.net/downloads"
 dl linux "linux-$LINUX_VERSION.tar.xz" "https://cdn.kernel.org/pub/linux/kernel/v6.x"
 dl dropbear "dropbear-$DROPBEAR_VERSION.tar.bz2" "https://matt.ucc.asn.au/dropbear/releases"
-dl zig-zlib "zig-zlib.tar.gz" "https://github.com/rsepassi/zig-zlib/files/$ZLIB_VERSION"
-dl zig "zig-linux-$ZIG_URL_ARCH-$ZIG_VERSION.tar.xz" "https://ziglang.org/download/$ZIG_VERSION"
+dl zlib "zlib-$ZLIB_VERSION.tar.gz" "https://www.zlib.net"
 
 echo "DONE: $TITLE"

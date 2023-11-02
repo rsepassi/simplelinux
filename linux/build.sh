@@ -1,4 +1,5 @@
 #!/bin/sh
+# Build the Linux kernel
 set -e
 
 TITLE="Building Linux kernel for $KERNEL_ARCH to $KERNEL_PATH"
@@ -37,7 +38,7 @@ if [ "$KERNEL_CONFIG" = "default" ]
 then
   ./clangmake defconfig
 else
-  config=$SLROOT/kernel/configs/$KERNEL_ARCH/$KERNEL_CONFIG
+  config=$SLROOT/linux/configs/$KERNEL_ARCH/$KERNEL_CONFIG
   echo "Using configuration $config"
   cp $config .config
 fi

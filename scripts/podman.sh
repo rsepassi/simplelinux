@@ -1,4 +1,5 @@
 #!/bin/sh
+# Run initramfs.tar.gz in a Podman container
 
 set -e
 
@@ -29,3 +30,5 @@ podman run \
         -v $TMP/boot:/boot/podman:ro \
         -it simplelinux \
         /boot/podman/init.sh
+
+rm -rf $TMP

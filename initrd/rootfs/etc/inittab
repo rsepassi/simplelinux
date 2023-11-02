@@ -1,3 +1,4 @@
+# BusyBox init configuration
 # See https://github.com/brgl/busybox/blob/master/examples/inittab
 
 # Init
@@ -6,12 +7,10 @@
 # Services
 ::respawn:/etc/runit/2
 
-# Console
-::askfirst:-/bin/sh
-# Replace with this if you only want to allow SSH login
-#::askfirst:echo "Login over SSH"
-
 # Shutdown
 ::shutdown:/etc/runit/3
 ::restart:/sbin/init
 ::ctrlaltdel:/sbin/reboot
+
+# Console
+::askfirst:-/bin/sh

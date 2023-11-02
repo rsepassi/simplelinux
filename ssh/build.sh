@@ -1,11 +1,14 @@
 #!/bin/sh
+# Cross-compile Dropbear SSH using Zig.
 
 set -e
 
 TITLE="Building dropbear"
 echo $TITLE
 
-cd $SLROOT/sources/zig-zlib
+# Build zlib
+cd $SLROOT/sources/zlib
+cp $SLROOT/ssh/zlib_build.zig build.zig
 zig build -Dtarget=$ZIG_TARGET
 ldir=$PWD/zig-out/lib
 idir=$PWD/zig-out/include
@@ -21,10 +24,10 @@ else
 fi
 
 cd $SLROOT/sources/dropbear
-export CC="zig cc -Wno-undef -static --target=$ZIG_TARGET -L $ldir -I $idir"
+export CC="zig cc -static --target=$ZIG_TARGET -L $ldir -I $idir"
 ./configure --enable-static --host=$ZIG_TARGET
-make clean
 make "-j$jn" PROGRAMS="dropbear scp" MULTI=1
-llvm-objcopy -S dropbearmulti $DROPBEAR_PATH
+zig objcopy -S dropbearmulti $DROPBEAR_PATH
+chmod +x $DROPBEAR_PATH
 
 echo "DONE: $TITLE"

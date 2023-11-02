@@ -1,5 +1,2 @@
 #!/bin/sh
-exec > >(logger -t ssh) 2>&1
-sv start dhcp || exit 1
-mkdir -p etc/dropbear
 exec dropbear -F -sg -R

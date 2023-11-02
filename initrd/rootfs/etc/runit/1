@@ -1,20 +1,7 @@
 #!/bin/sh
-# runit/1 runs all one-time startup tasks
+# One-time startup tasks
 
-/bin/busybox mkdir usr/sbin sbin tmp
-/bin/busybox --install
-dmesg -n 3
-hostname -F /etc/hostname
-
-run-parts /etc/init.d
-
-boot=$(cat /proc/uptime | cut -d' ' -f1)
-
-echo "
-
-
-      ====== simplelinux ======
-
-
-"
-echo "booted in $boot seconds"
+/etc/init.d/busybox.sh
+/etc/init.d/hostname.sh
+/etc/init.d/pseudofs.sh
+/etc/init.d/banner.sh
