@@ -57,7 +57,7 @@ You can SSH in on port 8181: `ssh root@localhost -p 8181`.
 ./scripts/getsrcs.sh  # download sources
 ./busybox/build.sh    # build busybox
 ./ssh/build.sh        # build dropbear
-./kernel/build.sh     # build linux
+./linux/build.sh      # build linux
 ./initrd/build.sh     # build root filesystem
 ./boot/build.sh       # build boot image
 ```
@@ -73,7 +73,7 @@ Build:
 # one of {x86, x86_64, arm, arm64, riscv64}
 ARCH=x86_64
 
-# one of the names in kernel/configs/$ARCH, or default
+# one of the names in linux/configs/$ARCH, or default
 KERNEL_CONFIG=default
 
 # public key(s) to put into /root/.ssh/authorized_keys
@@ -124,11 +124,13 @@ ARCH=x86_64
 * `/etc/runit/2`: Long-running services
 * `/etc/runit/3`: Shutdown tasks
 
-`simplelinux uses `runsv` for service management.
+`simplelinux` uses `runsv` for service management.
 
 Services can be started/stopped by adding/removing a directory to
-`/var/service`. Use `sv` to query and manage services (`sv status
-/var/service/*` to see the status for all services).
+`/var/service`.
+
+Use `sv` to query and manage services (`sv status /var/service/*` to see the
+status for all services).
 
 Default startup tasks:
 * Install busybox symlinks
@@ -152,11 +154,10 @@ Default shutdown tasks:
 
 By default, the Linux kernel is configured with its `defconfig` make rule.
 To specify an alternative config, you can place a configuration file in
-`kernel/configs/$KERNEL_ARCH/some_config_name`.
+`linux/configs/$ARCH/some_config_name` and set `KERNEL_CONFIG=some_config_name`
+for the `simplelinux.sh` build script.
 
 The available ones in the repo for `x86_64` are:
-* `defconfig`: `clangmake defconfig`
-* `allnoconfig`: `clangmake allnoconfig` (note: simplelinux init will fail)
 * `minconfig` (compressed kernel <3MiB): `allnoconfig` + the following +
   `clangmake kvm_guest.config`
     ```
@@ -187,7 +188,7 @@ The available ones in the repo for `x86_64` are:
             Tmpfs virtual memory file system support
     ```
 
-`clangmake` is the `make` wrapper generated in `kernel/build.sh`.
+Note: `clangmake` is the `make` wrapper generated in `linux/build.sh`.
 
 `minconfig` boots in QEMU with KVM in ~0.25s, the kernel and initramfs weigh in
 at <4MiB, and the system uses ~12MiB of memory after startup.

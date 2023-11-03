@@ -38,7 +38,7 @@ if [ "$KERNEL_CONFIG" = "default" ]
 then
   ./clangmake defconfig
 else
-  config=$SLROOT/linux/configs/$KERNEL_ARCH/$KERNEL_CONFIG
+  config=$SLROOT/linux/configs/$ARCH/$KERNEL_CONFIG
   echo "Using configuration $config"
   cp $config .config
 fi
