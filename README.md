@@ -260,5 +260,19 @@ booted in 0.25 seconds
 Please press Enter to activate this console.
 ```
 
+## Inspirations
+
+* [TinyCore Linux][tiny], by Robert Shingledecker
+* [Aboriginal Linux][aborig], by Rob Landley
+* [Linux from Scratch][lfs], by Gerard Beekmans
+* [Zig][zig], by Andrew Kelley
+* [Linux][linux], by Linus Torvalds
+
 ## TODO
 * wget HTTPS
+
+[zig]: http://ziglang.org
+[aborig]: http://landley.net/aboriginal/
+[lfs]: https://www.linuxfromscratch.org/lfs/
+[tiny]: http://tinycorelinux.net
+[linux]: https://www.kernel.org
