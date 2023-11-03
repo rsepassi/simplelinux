@@ -23,7 +23,7 @@ mkdir -p $BUILD_DIR
 ./linux/build.sh
 
 # ramfs
-./initrd/build.sh
+./ramfs/build.sh
 
 # bootloader
 ./boot/build.sh

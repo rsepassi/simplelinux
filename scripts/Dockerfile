@@ -5,6 +5,6 @@ WORKDIR /root/simplelinux
 ADD scripts scripts
 ADD ssh     ssh
 ADD busybox busybox
-ADD initrd  initrd
+ADD ramfs   ramfs
 ADD linux   linux
 ADD boot    boot

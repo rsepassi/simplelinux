@@ -58,8 +58,39 @@ You can SSH in on port 8181: `ssh root@localhost -p 8181`.
 ./busybox/build.sh    # build busybox
 ./ssh/build.sh        # build dropbear
 ./linux/build.sh      # build linux
-./initrd/build.sh     # build root filesystem
+./ramfs/build.sh      # build root filesystem
 ./boot/build.sh       # build boot image
+```
+
+You may want to modify the files in the root filesystem, which are in
+`ramfs/rootfs`. `ramfs/build.sh` is responsible for the final construction
+of the `initramfs` archives.
+
+```
+$ find ramfs/rootfs -type f
+
+ramfs/rootfs/etc/init.d/pseudofs.sh
+ramfs/rootfs/etc/init.d/banner.sh
+ramfs/rootfs/etc/init.d/busybox.sh
+ramfs/rootfs/etc/init.d/hostname.sh
+ramfs/rootfs/etc/group
+ramfs/rootfs/etc/fstab
+ramfs/rootfs/etc/passwd
+ramfs/rootfs/etc/runit/1
+ramfs/rootfs/etc/runit/2
+ramfs/rootfs/etc/runit/3
+ramfs/rootfs/etc/service/syslog/run
+ramfs/rootfs/etc/service/dhcp/run
+ramfs/rootfs/etc/service/cron/run
+ramfs/rootfs/etc/service/ntp/run
+ramfs/rootfs/etc/service/ssh/run
+ramfs/rootfs/etc/busybox.conf
+ramfs/rootfs/etc/inittab
+ramfs/rootfs/etc/shadow
+ramfs/rootfs/etc/ntp.conf
+ramfs/rootfs/etc/hostname
+ramfs/rootfs/etc/hosts
+ramfs/rootfs/var/spool/cron/crontabs/root
 ```
 
 ## Options

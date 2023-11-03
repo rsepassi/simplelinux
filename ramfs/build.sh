@@ -2,7 +2,7 @@
 # Build the root filesystem archives
 set -e
 
-TITLE="Building initrd archives"
+TITLE="Building initramfs archives"
 echo $TITLE
 
 SRC=$SLROOT
@@ -10,12 +10,12 @@ DST=$SRC/build/rootfs
 
 # Start fresh
 rm -rf $DST
-cp -r $SLROOT/initrd/rootfs $DST
+cp -r $SLROOT/ramfs/rootfs $DST
 cd $DST
 
 # Create some directories
 mkdir -p usr/sbin sbin tmp etc/dropbear var/service etc/udhcp home/user/.ssh \
-         /root/.ssh
+         root/.ssh
 
 # Copy in busybox
 cp $BUSYBOX_PATH bin/
