@@ -5,7 +5,7 @@ set -e
 TITLE="Building Linux kernel for $KERNEL_ARCH to $KERNEL_PATH"
 echo $TITLE
 
-cd $SLROOT/sources/linux
+cd $SLROOT/build/linux
 
 cat << EOF > clangmake
 #!/bin/sh
