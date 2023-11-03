@@ -1,9 +1,16 @@
 #!/bin/sh
 # Build simplelinux for $ARCH in an Alpine Linux container
 
-set -e
-
 DEBUG=${DEBUG:-0}
+
+fail() {
+  local_code=$1
+  echo "ERROR: Build failed with status code $CODE. See log $log:"
+  tail $log
+  echo
+  echo "ERROR: Build failed with status code $CODE. See log $log"
+  exit $CODE
+}
 
 # Setup output and download cache directories
 output_dir=$PWD/build/out/$ARCH
@@ -36,6 +43,10 @@ echo "log: $log"
 
 # Build our Alpine container
 podman build -f scripts/Dockerfile -t simplelinux-build . > $log
+CODE=$?
+if [ $CODE -ne 0 ]; then
+  fail $CODE
+fi
 
 # Run
 podman run -it \
@@ -48,6 +59,10 @@ podman run -it \
   $ARGS \
   simplelinux-build \
   $CMD > $log
+CODE=$?
+if [ $CODE -ne 0 ]; then
+  fail $CODE
+fi
 
 echo "end:   $(date)"
 
