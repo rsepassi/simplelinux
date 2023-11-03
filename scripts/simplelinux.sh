@@ -28,14 +28,15 @@ then
   echo "DEBUG enabled. Mounting current directory and dropping into shell"
   ARGS="-v $PWD:/root/simplelinux:rw"
   CMD="/bin/sh"
-  REDIR=""
+  REDIR="/dev/stdout"
 else
   ARGS=""
   CMD="/root/simplelinux/scripts/build.sh"
   rm -rf $output_dir
-  REDIR="> $log"
+  REDIR="$log"
 fi
 mkdir -p $output_dir
+touch $log
 
 echo
 echo "simplelinux build"
@@ -44,7 +45,7 @@ echo "start: $(date)"
 echo "log: $log"
 
 # Build our Alpine container
-podman build -f scripts/Dockerfile -t simplelinux-build . $REDIR
+podman build -f scripts/Dockerfile -t simplelinux-build . > $REDIR
 CODE=$?
 if [ $CODE -ne 0 ]; then
   fail $CODE
@@ -60,7 +61,7 @@ podman run -it \
   -v $apk_cache_dir:/etc/apk/cache:rw \
   $ARGS \
   simplelinux-build \
-  $CMD $REDIR
+  $CMD > $REDIR
 CODE=$?
 if [ $CODE -ne 0 ]; then
   fail $CODE
