@@ -4,7 +4,7 @@
 set -e
 
 ARCH=${ARCH:-$(uname -m)}
-SRC=$PWD/sources/build/$ARCH/initramfs.tar.gz
+SRC=$PWD/build/out/$ARCH/initramfs.tar.gz
 
 echo "Launching $SRC in Podman"
 

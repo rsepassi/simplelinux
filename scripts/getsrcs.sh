@@ -6,7 +6,7 @@ set -e
 TITLE="Downloading and extracting sources"
 echo $TITLE
 
-SRC=$SLROOT/sources
+SRC=$SLROOT/build
 mkdir -p $SRC
 
 CACHE=$HOME/.cache/simplelinux/downloads

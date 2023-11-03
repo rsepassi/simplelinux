@@ -6,7 +6,7 @@ set -e
 TITLE="Building boot image to $IMG_PATH"
 echo $TITLE
 
-LIMINE_SRCDIR=$SLROOT/sources/limine
+LIMINE_SRCDIR=$SLROOT/build/limine
 BUILD=$LIMINE_SRCDIR/build
 LIMINE=$BUILD/bin/limine
 LIMINE_CFG_PATH=$SLROOT/boot/$LIMINE_CFG

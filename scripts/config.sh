@@ -11,7 +11,7 @@ export ZLIB_VERSION="1.3"
 export ZIG_VERSION="0.11.0"
 
 export SLROOT=$PWD
-export BUILD_DIR=$SLROOT/sources/build/$ARCH
+export BUILD_DIR=$SLROOT/build/out/$ARCH
 
 ARCHS="x86 x86_64 arm arm64 riscv64"
 
@@ -47,7 +47,7 @@ export BUILD_PARALLELISM=$jn
 case "$ARCH" in
     x86)
         export KERNEL_ARCH="i386"
-        export KERNEL_SRC_PATH=$SLROOT/sources/linux/arch/$KERNEL_ARCH/boot/bzImage
+        export KERNEL_SRC_PATH=$SLROOT/build/linux/arch/$KERNEL_ARCH/boot/bzImage
         export ZIG_TARGET="x86-linux-musl"
         export LIMINE_CFG="limine.cfg"
         export LIMINE_ARCH="ia32"
@@ -56,7 +56,7 @@ case "$ARCH" in
         ;;
     x86_64)
         export KERNEL_ARCH="x86_64"
-        export KERNEL_SRC_PATH=$SLROOT/sources/linux/arch/$KERNEL_ARCH/boot/bzImage
+        export KERNEL_SRC_PATH=$SLROOT/build/linux/arch/$KERNEL_ARCH/boot/bzImage
         export ZIG_TARGET="x86_64-linux-musl"
         export LIMINE_CFG="limine.cfg"
         export LIMINE_ARCH="x86-64"
@@ -65,14 +65,14 @@ case "$ARCH" in
         ;;
     arm)
         export KERNEL_ARCH="arm"
-        export KERNEL_SRC_PATH=$SLROOT/sources/linux/arch/$KERNEL_ARCH/boot/zImage
+        export KERNEL_SRC_PATH=$SLROOT/build/linux/arch/$KERNEL_ARCH/boot/zImage
         export ZIG_TARGET="arm-linux-musleabihf"
         export LIMINE_CFG="limine_uefi.cfg"
         QEMU_CONSOLE="ttyAMA0"
         ;;
     arm64)
         export KERNEL_ARCH="arm64"
-        export KERNEL_SRC_PATH=$SLROOT/sources/linux/arch/$KERNEL_ARCH/boot/Image
+        export KERNEL_SRC_PATH=$SLROOT/build/linux/arch/$KERNEL_ARCH/boot/Image
         export ZIG_TARGET="aarch64-linux-musl"
         export LIMINE_CFG="limine_uefi.cfg"
         export LIMINE_ARCH="aarch64"
@@ -81,7 +81,7 @@ case "$ARCH" in
         ;;
     riscv64)
         export KERNEL_ARCH="riscv"
-        export KERNEL_SRC_PATH=$SLROOT/sources/linux/arch/$KERNEL_ARCH/boot/Image
+        export KERNEL_SRC_PATH=$SLROOT/build/linux/arch/$KERNEL_ARCH/boot/Image
         export ZIG_TARGET="riscv64-linux-musl"
         export LIMINE_CFG="limine_uefi.cfg"
         export LIMINE_ARCH="riscv64"

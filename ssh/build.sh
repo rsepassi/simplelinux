@@ -7,7 +7,7 @@ TITLE="Building dropbear"
 echo $TITLE
 
 # Build zlib
-cd $SLROOT/sources/zlib
+cd $SLROOT/build/zlib
 cp $SLROOT/ssh/zlib_build.zig build.zig
 zig build -Dtarget=$ZIG_TARGET
 ldir=$PWD/zig-out/lib
@@ -23,7 +23,7 @@ else
   jn=$n
 fi
 
-cd $SLROOT/sources/dropbear
+cd $SLROOT/build/dropbear
 export CC="zig cc -static --target=$ZIG_TARGET -L $ldir -I $idir"
 ./configure --enable-static --host=$ZIG_TARGET
 make "-j$jn" PROGRAMS="dropbear scp" MULTI=1

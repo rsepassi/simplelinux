@@ -6,7 +6,7 @@ set -e
 DEBUG=${DEBUG:-0}
 
 # Setup output and download cache directories
-output_dir=$PWD/sources/build/$ARCH
+output_dir=$PWD/build/out/$ARCH
 cache_dir=$HOME/.cache/simplelinux
 apk_cache_dir=$cache_dir/apkcache
 [ "${DEBUG}" -eq 1 ] || rm -rf $output_dir
@@ -42,7 +42,7 @@ podman run -it \
   -e ARCH=$ARCH \
   -e KERNEL_CONFIG=$KERNEL_CONFIG \
   -e SSH_KEY="$SSH_KEY" \
-  -v $output_dir:/root/simplelinux/sources/build/$ARCH:rw \
+  -v $output_dir:/root/simplelinux/build/out/$ARCH:rw \
   -v $cache_dir:/root/.cache/simplelinux:rw \
   -v $apk_cache_dir:/etc/apk/cache:rw \
   $ARGS \

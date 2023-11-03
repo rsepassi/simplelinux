@@ -2,6 +2,8 @@
 
 A Linux OS simple enough to build and edit yourself.
 
+Build for `{x86, x86_64, arm, arm64, riscv64}`.
+
 ## Quick start
 
 Build in a Podman container and then launch with QEMU:
@@ -14,9 +16,9 @@ $ ARCH=x86_64 \
 simplelinux build
 
 start: Thu Nov  2 04:58:19 PM PDT 2023
-log: /home/simp/projects/simplelinux/sources/build/x86_64/build_log.txt
+log: /home/simp/simplelinux/build/out/x86_64/build_log.txt
 end:   Thu Nov  2 05:03:12 PM PDT 2023
-outputs: /home/simp/projects/simplelinux/sources/build/x86_64
+outputs: /home/simp/simplelinux/build/out/x86_64
 
 1.3M build_log.txt
 1.2M busybox

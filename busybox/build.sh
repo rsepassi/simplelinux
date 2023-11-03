@@ -61,7 +61,7 @@ EOF
 	export PATH="$PATH:$PWD/toolchain"
 }
 
-cd $SLROOT/sources/busybox
+cd $SLROOT/build/busybox
 setup_toolchain
 make clean
 cp $SLROOT/busybox/configs/default .config

@@ -13,8 +13,8 @@ else
   DISK_ARG=""
 fi
 
-INITRD_PATH=$PWD/sources/build/$ARCH/initramfs.cpio.gz
-KERNEL_PATH=$PWD/sources/build/$ARCH/kernel
+INITRD_PATH=$PWD/build/out/$ARCH/initramfs.cpio.gz
+KERNEL_PATH=$PWD/build/out/$ARCH/kernel
 
 case "$ARCH" in
     x86)

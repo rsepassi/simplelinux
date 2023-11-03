@@ -6,7 +6,7 @@ TITLE="Building initrd archives"
 echo $TITLE
 
 SRC=$SLROOT
-DST=$SRC/sources/rootfs
+DST=$SRC/build/rootfs
 
 # Start fresh
 rm -rf $DST
@@ -23,7 +23,7 @@ cp $BUSYBOX_PATH bin/
 cp $DROPBEAR_PATH usr/bin/
 
 # Networking
-cp $SRC/sources/busybox/examples/udhcp/simple.script etc/udhcp/
+cp $SRC/build/busybox/examples/udhcp/simple.script etc/udhcp/
 
 # SSH
 echo "$SSH_KEY" > root/.ssh/authorized_keys
