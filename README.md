@@ -4,6 +4,8 @@ A Linux OS simple enough to build and edit yourself.
 
 Build for `{x86, x86_64, arm, arm64, riscv64}`.
 
+Pre-built artifacts available in [releases][releases].
+
 ## Quick start
 
 Build in a Podman container and then launch with QEMU:
@@ -269,10 +271,11 @@ Please press Enter to activate this console.
 * [Linux][linux], by Linus Torvalds
 
 ## TODO
-* wget HTTPS
+* wget HTTPS certificate validation
 
 [zig]: http://ziglang.org
 [aborig]: http://landley.net/aboriginal/
 [lfs]: https://www.linuxfromscratch.org/lfs/
 [tiny]: http://tinycorelinux.net
 [linux]: https://www.kernel.org
+[releases]: https://github.com/rsepassi/simplelinux/releases
