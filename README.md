@@ -157,7 +157,7 @@ To specify an alternative config, you can place a configuration file in
 The available ones in the repo for `x86_64` are:
 * `defconfig`: `clangmake defconfig`
 * `allnoconfig`: `clangmake allnoconfig` (note: simplelinux init will fail)
-* `minconfig` (compressed kernel <3MiB): `minconfig` + the following +
+* `minconfig` (compressed kernel <3MiB): `allnoconfig` + the following +
   `clangmake kvm_guest.config`
     ```
         -> General setup
@@ -189,8 +189,44 @@ The available ones in the repo for `x86_64` are:
 
 `clangmake` is the `make` wrapper generated in `kernel/build.sh`.
 
-`minconfig` boots in QEMU with KVM in <0.3s, the kernel and initramfs weigh in
+`minconfig` boots in QEMU with KVM in ~0.25s, the kernel and initramfs weigh in
 at <4MiB, and the system uses ~12MiB of memory after startup.
+
+```
+$ ARCH=x86_64 \
+  KERNEL_CONFIG=minconfig \
+  SSH_KEY="$(cat ~/.ssh/*.pub)" \
+  ./scripts/simplelinux.sh
+
+simplelinux build
+
+start: Thu Nov  2 05:37:20 PM PDT 2023
+log: /home/ryan/projects/simplelinux/build/out/x86_64/build_log.txt
+end:   Thu Nov  2 05:40:18 PM PDT 2023
+outputs: /home/ryan/projects/simplelinux/build/out/x86_64
+
+1.2M build_log.txt
+1.2M busybox
+807K dropbearmulti
+1.1M initramfs.cpio.gz
+1.1M initramfs.tar.gz
+2.7M kernel
+64M simplelinux.img
+
+simplelinux build complete
+
+$ ARCH=x86_64 ./scripts/qemu.sh
+
+
+
+      ====== simplelinux ======
+
+
+
+booted in 0.25 seconds
+
+Please press Enter to activate this console.
+```
 
 ## TODO
 * Non-root user
