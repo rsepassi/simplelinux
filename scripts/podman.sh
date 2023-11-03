@@ -12,14 +12,14 @@ TMP=$(mktemp -d)
 mkdir $TMP/boot
 cat <<EOF > $TMP/boot/init.sh
 #!/bin/sh
-echo "simplelinux Podman init"
+echo
+echo "   === simplelinux ==="
+echo
 
 busybox --install -s /usr/bin
 
 export USER=root
 export HOME=/root
-
-dropbear -sg -R
 
 exec /bin/sh
 EOF
