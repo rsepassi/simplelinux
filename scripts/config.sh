@@ -52,7 +52,7 @@ case "$ARCH" in
         export LIMINE_CFG="limine.cfg"
         export LIMINE_ARCH="ia32"
         export LIMINE_EFI_BIN="BOOTIA32.EFI"
-        QEMU_CONSOLE="ttyS0"
+        export QEMU_CONSOLE="ttyS0"
         ;;
     x86_64)
         export KERNEL_ARCH="x86_64"
@@ -61,14 +61,14 @@ case "$ARCH" in
         export LIMINE_CFG="limine.cfg"
         export LIMINE_ARCH="x86-64"
         export LIMINE_EFI_BIN="BOOTX64.EFI"
-        QEMU_CONSOLE="ttyS0"
+        export QEMU_CONSOLE="ttyS0"
         ;;
     arm)
         export KERNEL_ARCH="arm"
         export KERNEL_SRC_PATH=$SLROOT/build/linux/arch/$KERNEL_ARCH/boot/zImage
         export ZIG_TARGET="arm-linux-musleabihf"
         export LIMINE_CFG="limine_uefi.cfg"
-        QEMU_CONSOLE="ttyAMA0"
+        export QEMU_CONSOLE="ttyAMA0"
         ;;
     arm64)
         export KERNEL_ARCH="arm64"
@@ -77,7 +77,7 @@ case "$ARCH" in
         export LIMINE_CFG="limine_uefi.cfg"
         export LIMINE_ARCH="aarch64"
         export LIMINE_EFI_BIN="BOOTAA64.EFI"
-        QEMU_CONSOLE="ttyS0"
+        export QEMU_CONSOLE="ttyS0"
         ;;
     riscv64)
         export KERNEL_ARCH="riscv"
@@ -86,7 +86,7 @@ case "$ARCH" in
         export LIMINE_CFG="limine_uefi.cfg"
         export LIMINE_ARCH="riscv64"
         export LIMINE_EFI_BIN="BOOTRISCV64.EFI"
-        QEMU_CONSOLE="ttySIF0"
+        export QEMU_CONSOLE="ttySIF0"
         ;;
     *)
         echo "Unrecognized ARCH $ARCH"
