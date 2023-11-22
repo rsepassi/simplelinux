@@ -1,6 +1,7 @@
 #!/bin/sh
 # Build simplelinux for $ARCH in an Alpine Linux container
 
+ARCH=${ARCH:-$(uname -m)}
 DEBUG=${DEBUG:-0}
 
 fail() {
@@ -39,7 +40,7 @@ mkdir -p $output_dir
 touch $log
 
 echo
-echo "simplelinux build"
+echo "simplelinux build $ARCH"
 echo
 echo "start: $(date)"
 echo "log: $log"
