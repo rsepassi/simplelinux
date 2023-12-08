@@ -191,8 +191,7 @@ To specify an alternative config, you can place a configuration file in
 for the `simplelinux.sh` build script.
 
 The available ones in the repo for `x86_64` are:
-* `minconfig` (compressed kernel <3MiB): `allnoconfig` + the following +
-  `clangmake kvm_guest.config`
+* `minconfig` (compressed kernel <3MiB): `clangmake allnoconfig` + `clangmake kvm_guest.config` + the following:
     ```
         -> General setup
             System V IPC
@@ -201,21 +200,14 @@ The available ones in the repo for `x86_64` are:
             Configure standard kernel features
               Deselect "Load all symbols for debugging"
         -> Executable file formats
-            Kernel support for ELF binaries
             Kernel support for scripts starting with #!
             Disable core dump support
         -> Networking support
           -> Networking options
             Packet socket
-            Unix domain sockets
-            TCP/IP networking
         -> Device Drivers
           -> Generic driver options
             Maintain a devtmpfs filesystem
-          -> Character devices
-            -> Serial drivers
-              8250/16550 and compatible serial support
-              Console on 8250/16550 and compatible serial port
         -> File systems
           -> Pseudo filesystems
             Tmpfs virtual memory file system support
