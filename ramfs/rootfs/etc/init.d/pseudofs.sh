@@ -7,12 +7,9 @@ mount -t sysfs    sysfs    /sys
 mount -t devtmpfs devtmpfs /dev
 mount -t tmpfs    tmpfs    /tmp
 
-mkdir -p /dev/shm /dev/pts /sys/fs/cgroup /dev/hugepages /dev/mqueue
+mkdir -p /dev/shm /dev/pts
 mount -t tmpfs     tmpfs     /dev/shm
 mount -t devpts    devpts    /dev/pts
-mount -t cgroup2   cgroup2   /sys/fs/cgroup
-mount -t hugetlbfs hugetlbfs /dev/hugepages
-mount -t mqueue    mqeue     /dev/mqueue
 
 ln -s /dev/rtc0 /dev/rtc
 ln -s /proc/self/fd /dev/fd

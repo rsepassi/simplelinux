@@ -208,6 +208,7 @@ The available ones in the repo for `x86_64` are:
         -> Device Drivers
           -> Generic driver options
             Maintain a devtmpfs filesystem
+          Real Time Clock
         -> File systems
           -> Pseudo filesystems
             Tmpfs virtual memory file system support

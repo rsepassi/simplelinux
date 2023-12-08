@@ -49,5 +49,6 @@ echo "Linux configured"
 echo "Linux built"
 
 cp $KERNEL_SRC_PATH $KERNEL_PATH
+cp .config $KERNEL_PATH.config
 
 echo "DONE: $TITLE"

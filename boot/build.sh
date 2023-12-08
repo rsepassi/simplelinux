@@ -70,6 +70,7 @@ mcopy -i $FAT $STARTUP_NSH ::/EFI/BOOT/startup.nsh
 mcopy -i $FAT $BIOS ::/boot/limine-bios.sys
 mcopy -i $FAT $LIMINE_CFG_PATH ::/boot/limine.cfg
 mcopy -i $FAT $KERNEL_PATH ::/kernel
+mcopy -i $FAT $KERNEL_PATH.config ::/kernel.config
 mcopy -i $FAT $INITRD_PATH ::/initrd
 mdir -i $FAT ::
 
