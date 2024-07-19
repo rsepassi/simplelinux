@@ -9,8 +9,10 @@
 
 # Shutdown
 ::shutdown:/etc/runit/3
-::restart:/sbin/init
-::ctrlaltdel:/sbin/reboot
 
 # Console
-::askfirst:-/bin/sh
+::respawn:-/bin/sh
+
+# Other
+::restart:/sbin/init
+::ctrlaltdel:/sbin/reboot

@@ -3,26 +3,28 @@ echo "Loading config.sh"
 ARCH=${ARCH:-$(uname -m)}
 KERNEL_CONFIG=${KERNEL_CONFIG:-default}
 
-export BUSYBOX_VERSION="1.36.0"
-export LINUX_VERSION="6.6.2"
+export BUSYBOX_VERSION="1.36.1"
+export LINUX_VERSION="6.6.40"
 export LIMINE_VERSION="5.20231006.0"
 export DROPBEAR_VERSION="2022.83"
-export ZLIB_VERSION="1.3"
-export ZIG_VERSION="0.11.0"
+export ZLIB_VERSION="1.3.1"
+export ZIG_VERSION="0.12.1"
 
 export SLROOT=$PWD
 export BUILD_DIR=$SLROOT/build/out/$ARCH
+export SLCACHE=$HOME/.cache/simplelinux/downloads
 
-ARCHS="x86 x86_64 arm arm64 riscv64"
+archs="x86 x86_64 arm arm64 riscv64"
 
 echo "=== Configuration ==="
-echo "Architecture ($ARCHS): $ARCH"
-echo "Busybox: v$BUSYBOX_VERSION"
+echo "Architecture ($archs): \$ARCH=$ARCH"
 echo "Linux: v$LINUX_VERSION"
-echo "Linux kernel config: $KERNEL_CONFIG"
+echo "Linux kernel config: \$KERNEL_CONFIG=$KERNEL_CONFIG"
 echo "Limine: v$LIMINE_VERSION"
-echo "Dropbear: v$DROPBEAR_VERSION"
+echo "Busybox: v$BUSYBOX_VERSION"
 echo "zlib: v$ZLIB_VERSION"
+echo "Dropbear: v$DROPBEAR_VERSION"
+echo "SSH key: \$SSH_KEY=$SSH_KEY"
 echo "Output directory: $BUILD_DIR"
 echo "====================="
 
@@ -34,14 +36,8 @@ export BUSYBOX_PATH=$BUILD_DIR/busybox
 export DROPBEAR_PATH=$BUILD_DIR/dropbearmulti
 
 # Limit parallelism. Hits segfaults if it is too high within Podman.
-n=$(nproc)
-m=16
-if [ "$n" -gt "$m" ]
-then
-  jn=$m
-else
-  jn=$n
-fi
+jn=$(nproc)
+[ $jn -gt 16 ] && jn=16
 export BUILD_PARALLELISM=$jn
 
 case "$ARCH" in

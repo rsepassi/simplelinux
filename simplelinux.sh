@@ -13,6 +13,8 @@ fail() {
   exit $CODE
 }
 
+start=$(date +%s)
+
 # Setup output and download cache directories
 output_dir=$PWD/build/out/$ARCH
 log=$output_dir/build_log.txt
@@ -27,7 +29,12 @@ mkdir -p $apk_cache_dir
 if [ "${DEBUG}" -eq 1 ]
 then
   echo "DEBUG enabled. Mounting current directory and dropping into shell"
-  ARGS="-v $PWD:/root/simplelinux:rw"
+  ARGS=""
+  dirs="scripts ssh busybox ramfs linux boot"
+  for d in $dirs
+  do
+    ARGS="$ARGS -v $PWD/$d:/root/simplelinux/$d:ro"
+  done
   CMD="/bin/sh"
   REDIR="/dev/stdout"
 else
@@ -43,10 +50,10 @@ echo
 echo "simplelinux build $ARCH"
 echo
 echo "start: $(date)"
-echo "log: $log"
+[ "${DEBUG}" -ne 1 ] && echo "log: $log"
 
 # Build our Alpine container
-podman build -f scripts/Dockerfile -t simplelinux-build . > $REDIR
+podman build -f scripts/Containerfile -t simplelinux-build . > $REDIR
 CODE=$?
 if [ $CODE -ne 0 ]; then
   fail $CODE
@@ -73,5 +80,6 @@ echo "end:   $(date)"
 echo "outputs: $output_dir"
 ls -lh $output_dir | awk '{print $5, $9}'
 echo
-echo "simplelinux build complete"
+duration=$(( $(date +%s) - $start ))
+echo "simplelinux build complete in $duration seconds"
 echo

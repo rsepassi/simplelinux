@@ -22,7 +22,7 @@ make \
   OBJDUMP=llvm-objdump \
   READELF=llvm-readelf \
   HOSTCC=clang \
-  HOSTCXX=clang-c++ \
+  HOSTCXX=clang++ \
   HOSTAR=llvm-ar \
   HOSTLD=ld.lld \
   "\$@"

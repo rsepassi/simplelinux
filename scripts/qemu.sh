@@ -5,10 +5,15 @@ set -e
 ARCH=${ARCH:-$(uname -m)}
 MODE="${MODE:-kernel}"
 PORT="${PORT:-8181}"
+MEM="${MEM:-"3G"}"
+CPU="${CPU:-4}"
 
-if [ -n "$DATA_DISK" ]
+if [ -n "$DATA_SHARE" ]
 then
-  DISK_ARG="-drive file=$DATA_DISK,media=disk,if=virtio"
+  # In guest, run
+  # mkdir /root/share
+  # mount -t 9p -o trans=virtio vmshare /root/share -oversion=9p2000.L -o msize=268435456
+  DISK_ARG="-virtfs local,path=$DATA_SHARE,mount_tag=vmshare,security_model=mapped"
 else
   DISK_ARG=""
 fi
@@ -34,6 +39,8 @@ case "$ARCH" in
     arm64)
         QEMU_ARCH="aarch64"
         QEMU_ARGS="-machine virt -cpu cortex-a53 -bios /usr/share/qemu-efi-aarch64/QEMU_EFI.fd"
+        # MacOS M1
+        # QEMU_ARGS="-machine virt,highmem=off -cpu cortex-a53 -bios /opt/homebrew/share/qemu/edk2-aarch64-code.fd -accel hvf"
         QEMU_BIOS_ARG=""  # already in QEMU_ARGS
         QEMU_CONSOLE="ttyS0"
         QEMU_NIC="virtio-net-pci"
@@ -74,11 +81,12 @@ case "$MODE" in
       qemu-system-$QEMU_ARCH \
         $QEMU_ARGS \
         $QEMU_BIOS_ARG \
-        -m 2G \
+        $DISK_ARG \
+        -m $MEM \
+        -smp $CPU \
         -serial stdio \
         -display none \
         -nic user,hostfwd=::$PORT-:22,model=$QEMU_NIC \
-        $DISK_ARG \
         -drive format=raw,file=$IMG_PATH
       ;;
 
@@ -87,12 +95,13 @@ case "$MODE" in
       echo "Running kernel $KERNEL_PATH and initrd $INITRD_PATH"
       qemu-system-$QEMU_ARCH \
         $QEMU_ARGS \
-        -m 2G \
+        $DISK_ARG \
+        -m $MEM \
+        -smp $CPU \
         -serial stdio \
         -display none \
         -kernel $KERNEL_PATH \
         -initrd $INITRD_PATH \
-        $DISK_ARG \
         -nic user,hostfwd=::$PORT-:22,model=$QEMU_NIC \
         -append "console=$QEMU_CONSOLE quiet loglevel=3"
       ;;

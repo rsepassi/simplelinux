@@ -6,6 +6,7 @@ set -e
 . ./scripts/config.sh
 
 mkdir -p $BUILD_DIR
+mkdir -p $SLCACHE
 
 # apk build dependencies
 ./scripts/getdeps.sh

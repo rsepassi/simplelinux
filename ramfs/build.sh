@@ -14,8 +14,7 @@ cp -r $SLROOT/ramfs/rootfs $DST
 cd $DST
 
 # Create some directories
-mkdir -p usr/sbin sbin tmp etc/dropbear var/service etc/udhcp home/user/.ssh \
-         root/.ssh
+mkdir -p usr/sbin sbin tmp etc/dropbear var/service etc/udhcp home/user/.ssh
 
 # Copy in busybox
 cp $BUSYBOX_PATH bin/
@@ -27,7 +26,7 @@ cp $DROPBEAR_PATH usr/bin/
 cp $SRC/build/busybox/examples/udhcp/simple.script etc/udhcp/
 
 # SSH
-echo "$SSH_KEY" > root/.ssh/authorized_keys
+echo "$SSH_KEY" > home/user/.ssh/authorized_keys
 
 # Package
 find . | cpio --quiet -o -H newc | gzip -9 > $INITRD_PATH

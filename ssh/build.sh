@@ -8,20 +8,35 @@ echo $TITLE
 
 # Build zlib
 cd $SLROOT/build/zlib
-cp $SLROOT/ssh/zlib_build.zig build.zig
-zig build -Dtarget=$ZIG_TARGET
-ldir=$PWD/zig-out/lib
-idir=$PWD/zig-out/include
+zig build-lib -target $ZIG_TARGET -O ReleaseFast \
+    --name z \
+    -cflags -std=c89 -- \
+    adler32.c \
+    compress.c \
+    crc32.c \
+    deflate.c \
+    gzclose.c \
+    gzlib.c \
+    gzread.c \
+    gzwrite.c \
+    infback.c \
+    inffast.c \
+    inflate.c \
+    inftrees.c \
+    trees.c \
+    uncompr.c \
+    zutil.c \
+    -lc
+mkdir zlib-out
+mv libz.a zlib-out
+mv zlib.h zlib-out
+mv zconf.h zlib-out
+ldir=$PWD/zlib-out
+idir=$PWD/zlib-out
 
 # Limit parallelism. Hits segfaults if it is too high.
-n=$(nproc)
-m=8
-if [ "$n" -gt "$m" ]
-then
-  jn=$m
-else
-  jn=$n
-fi
+jn=$(nproc)
+[ $jn -gt 8 ] && jn=8
 
 cd $SLROOT/build/dropbear
 export CC="zig cc -static --target=$ZIG_TARGET -L $ldir -I $idir"

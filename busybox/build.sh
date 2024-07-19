@@ -41,7 +41,7 @@ EOF
   local_ar="toolchain/$CROSS_PREFIX-ar"
   cat << EOF > $local_ar
 #!/bin/sh
-llvm-ar "\$@"
+zig ar "\$@"
 EOF
   chmod +x $local_ar
 

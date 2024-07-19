@@ -13,7 +13,7 @@ Build in a Podman container and then launch with QEMU:
 ```
 $ ARCH=x86_64 \
   SSH_KEY="$(cat ~/.ssh/*.pub)" \
-  ./scripts/simplelinux.sh
+  ./simplelinux.sh
 
 simplelinux build
 
@@ -51,7 +51,7 @@ You can SSH in on port 8181: `ssh root@localhost -p 8181`.
 
 ## Code Tour
 
-`scripts/simplelinux.sh` sets up a minimal Alpine Linux container and runs
+`simplelinux.sh` sets up a minimal Alpine Linux container and runs
 `scripts/build.sh` within in, which in turn runs the following:
 
 ```
@@ -115,7 +115,7 @@ SSH_KEY="$(cat ~/.ssh/*.pub)"
 # if 1, mounts pwd and drops into shell
 DEBUG=0
 
-./scripts/simplelinux.sh
+./simplelinux.sh
 ```
 
 Boot:
@@ -223,7 +223,7 @@ at <4MiB, and the system uses ~12MiB of memory after startup.
 $ ARCH=x86_64 \
   KERNEL_CONFIG=minconfig \
   SSH_KEY="$(cat ~/.ssh/*.pub)" \
-  ./scripts/simplelinux.sh
+  ./simplelinux.sh
 
 simplelinux build
 

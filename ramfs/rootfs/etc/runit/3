@@ -1,6 +1,7 @@
 #!/bin/sh
 # Shutdown tasks
 
+echo
 echo "simplelinux shutting down"
 
 sv exit /var/service/*

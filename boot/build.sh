@@ -25,9 +25,9 @@ cd $BUILD
 cd $LIMINE_SRCDIR
 TOOLCHAIN_FOR_TARGET="llvm" \
   ./configure --prefix=$BUILD \
-  --enable-uefi-$LIMINE_ARCH \
-  --enable-bios
-  make "-j$BUILD_PARALLELISM" install
+    --enable-uefi-$LIMINE_ARCH \
+    --enable-bios
+make "-j$BUILD_PARALLELISM" install
 find $BUILD -type f | grep -v "/doc/" | grep -v "/man/"
 cd $BUILD
 

@@ -9,9 +9,7 @@ echo $TITLE
 SRC=$SLROOT/build
 mkdir -p $SRC
 
-CACHE=$HOME/.cache/simplelinux/downloads
-mkdir -p $CACHE
-cd $CACHE
+cd $SLCACHE
 
 dl() {
   local_name="$1"
