@@ -71,7 +71,7 @@ case "$ARCH" in
         ;;
     arm64)
         export KERNEL_ARCH="arm64"
-        export KERNEL_SRC_PATH=$SLROOT/build/linux/arch/$KERNEL_ARCH/boot/Image
+        export KERNEL_SRC_PATH=$SLROOT/build/linux/arch/$KERNEL_ARCH/boot/Image.gz
         export ZIG_TARGET="aarch64-linux-musl"
         export LIMINE_CFG="limine_uefi.cfg"
         export LIMINE_ARCH="aarch64"
