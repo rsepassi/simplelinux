@@ -3,6 +3,9 @@ echo "Loading config.sh"
 ARCH=${ARCH:-$(uname -m)}
 KERNEL_CONFIG=${KERNEL_CONFIG:-default}
 
+kernel_configs="default"
+[ -d linux/configs/$ARCH ] && kernel_configs="default $(ls linux/configs/$ARCH)"
+
 export BUSYBOX_VERSION="1.36.1"
 export LINUX_VERSION="6.6.40"
 export LIMINE_VERSION="5.20231006.0"
@@ -19,7 +22,7 @@ archs="x86 x86_64 arm arm64 riscv64"
 echo "=== Configuration ==="
 echo "Architecture ($archs): \$ARCH=$ARCH"
 echo "Linux: v$LINUX_VERSION"
-echo "Linux kernel config: \$KERNEL_CONFIG=$KERNEL_CONFIG"
+echo "Linux kernel config ($kernel_configs): \$KERNEL_CONFIG=$KERNEL_CONFIG"
 echo "Limine: v$LIMINE_VERSION"
 echo "Busybox: v$BUSYBOX_VERSION"
 echo "zlib: v$ZLIB_VERSION"

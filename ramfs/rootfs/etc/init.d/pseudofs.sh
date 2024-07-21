@@ -1,13 +1,13 @@
 #!/bin/sh
 # Mount various pseudo-filesystems provided by the kernel
 
-mkdir -p /proc /sys /dev /tmp
-mount -t proc     proc /proc
+mount -t proc     proc     /proc
 mount -t sysfs    sysfs    /sys
-mount -t devtmpfs devtmpfs /dev
 mount -t tmpfs    tmpfs    /tmp
 
-mkdir -p /dev/shm /dev/pts
+# /dev
+mount -t devtmpfs devtmpfs /dev
+mkdir /dev/shm /dev/pts
 mount -t tmpfs     tmpfs     /dev/shm
 mount -t devpts    devpts    /dev/pts
 

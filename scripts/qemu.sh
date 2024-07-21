@@ -4,18 +4,33 @@ set -e
 
 ARCH=${ARCH:-$(uname -m)}
 MODE="${MODE:-kernel}"
-PORT="${PORT:-8181}"
+SSH_PORT="${SSH_PORT:-8181}"
 MEM="${MEM:-"3G"}"
 CPU="${CPU:-4}"
 
-if [ -n "$DATA_SHARE" ]
+# Shared directory
+DISK_ARG=""
+if [ -n "$DATA_DIR" ]
 then
   # In guest, run
   # mkdir /root/share
   # mount -t 9p -o trans=virtio vmshare /root/share -oversion=9p2000.L -o msize=268435456
-  DISK_ARG="-virtfs local,path=$DATA_SHARE,mount_tag=vmshare,security_model=mapped"
-else
-  DISK_ARG=""
+  DISK_ARG="-virtfs local,path=$DATA_DIR,mount_tag=vmshare,security_model=mapped"
+fi
+
+# Shared disk
+if [ -n "$DATA_DISK" ]
+then
+  # In guest, run
+  #   mkdir /root/data
+  #   mount /dev/vda /root/data
+  # If fresh, must format first:
+  #   fdisk /dev/vda
+  #     > n
+  #     > p
+  #     > w
+  #   mkfs.ext2 /dev/vda
+  DISK_ARG="$DISK_ARG -drive file=$DATA_DISK,if=none,id=drive0 -device virtio-blk-pci,drive=drive0"
 fi
 
 INITRD_PATH=$PWD/build/out/$ARCH/initramfs.cpio.gz
@@ -86,7 +101,7 @@ case "$MODE" in
         -smp $CPU \
         -serial stdio \
         -display none \
-        -nic user,hostfwd=::$PORT-:22,model=$QEMU_NIC \
+        -nic user,hostfwd=::$SSH_PORT-:22,model=$QEMU_NIC \
         -drive format=raw,file=$IMG_PATH
       ;;
 
@@ -102,7 +117,7 @@ case "$MODE" in
         -display none \
         -kernel $KERNEL_PATH \
         -initrd $INITRD_PATH \
-        -nic user,hostfwd=::$PORT-:22,model=$QEMU_NIC \
+        -nic user,hostfwd=::$SSH_PORT-:22,model=$QEMU_NIC \
         -append "console=$QEMU_CONSOLE quiet loglevel=3"
       ;;
 

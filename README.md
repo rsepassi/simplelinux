@@ -33,7 +33,7 @@ outputs: /home/simp/simplelinux/build/out/x86_64
 simplelinux build complete
 
 $ ARCH=x86_64 \
-  PORT=8181 \
+  SSH_PORT=8181 \
   ./scripts/qemu.sh
 
 
@@ -130,7 +130,7 @@ ARCH=x86_64
 MODE=kernel
 
 # port forward for ssh
-PORT=8181
+SSH_PORT=8181
 
 # optionally attach a disk, typically created by qemu-img
 # if not partitioned, use fdisk, and then mkfs.ext2 to create a fs
@@ -253,6 +253,18 @@ $ ARCH=x86_64 ./scripts/qemu.sh
 booted in 0.25 seconds
 
 Please press Enter to activate this console.
+```
+
+## Debugging
+
+`DEBUG=1` drops you into a shell in the Podman environment. Typically
+it would run `./scripts/build.sh` but you can manually run commands yourself.
+
+```
+DEBUG=1 ./simplelinux.sh
+# . scripts/config.sh
+# ./scripts/getdeps.sh
+# ./scripts/getsrcs.sh
 ```
 
 ## Inspirations
