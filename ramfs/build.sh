@@ -15,11 +15,10 @@ cd $DST
 
 # Create some directories
 mkdir -p \
-  proc sys usr dev tmp sbin home root \
+  proc sys usr dev tmp sbin home/user root/.ssh \
   usr/sbin \
   etc/dropbear etc/udhcp \
-  var/service \
-  home/user/.ssh
+  var/service
 
 # Copy in busybox
 cp $BUSYBOX_PATH bin/
@@ -31,7 +30,7 @@ cp $DROPBEAR_PATH usr/bin/
 cp $SRC/build/busybox/examples/udhcp/simple.script etc/udhcp/
 
 # SSH
-echo "$SSH_KEY" > home/user/.ssh/authorized_keys
+echo "$SSH_KEY" > root/.ssh/authorized_keys
 
 # Package
 find . | cpio --quiet -o -H newc | gzip -9 > $INITRD_PATH

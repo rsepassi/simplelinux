@@ -16,6 +16,7 @@ FAT=$BUILD/boot.img.fat
 STARTUP_NSH=$BUILD/startup.nsh
 
 rm -f $IMG_PATH
+rm -f $IMG_PATH.gz
 rm -rf $BUILD
 
 mkdir -p $BUILD
@@ -86,5 +87,6 @@ parted -s $IMG_PATH -- unit MiB print
 dd if=$FAT of=$IMG_PATH bs=$sector_size seek=$fat_offset conv=notrunc
 
 $LIMINE bios-install $IMG_PATH
+gzip -9 -c $IMG_PATH > $IMG_PATH.gz
 
 echo "DONE: $TITLE"

@@ -85,6 +85,7 @@ esac
 echo "Launching qemu-system-$QEMU_ARCH"
 echo "MODE (kernel, boot)=$MODE"
 echo "QEMU_ARGS=$QEMU_ARGS"
+echo "SSH_PORT=$SSH_PORT"
 
 echo "to interrupt: CTRL-]"
 stty intr ^]
